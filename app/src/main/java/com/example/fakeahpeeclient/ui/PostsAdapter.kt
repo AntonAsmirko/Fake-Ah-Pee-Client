@@ -1,16 +1,24 @@
 package com.example.fakeahpeeclient.ui
 
+import android.app.Notification
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.network.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.post_holder.view.*
+import okhttp3.ResponseBody
 
-class PostsAdapter(var data: MutableList<Post>) : RecyclerView.Adapter<PostsAdapter.PostHolder>() {
+class PostsAdapter(
+    var data: MutableList<Post>,
+    val callbackProgressBar: () -> Unit,
+    val callbackNotification: (ResponseBody) -> Unit
+) :
+    RecyclerView.Adapter<PostsAdapter.PostHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostHolder {
         return PostHolder(
@@ -41,7 +49,11 @@ class PostsAdapter(var data: MutableList<Post>) : RecyclerView.Adapter<PostsAdap
             view.title.text = title.trim()
             view.content.text = content.trim()
             view.delete_button.setOnClickListener {
-                FakeAhPeeClient.instance.deletePost(this.id)
+                FakeAhPeeClient.instance.deletePost(
+                    this.id,
+                    FakeAhPeeClient.instance.commonSuccessHandler(callbackProgressBar, callbackNotification),
+                    FakeAhPeeClient.instance.commonErrorNotifierAction(callbackProgressBar)
+                )
                 var i = -1
                 data.forEachIndexed { index, post ->
                     if (post.id == this.id) {

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -43,19 +44,30 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(i, MAKE_POST_REQUEST)
             return@setOnMenuItemClickListener true
         }
+        if (FakeAhPeeClient.instance.posts.value!!.isEmpty()) progress_bar.visibility = View.VISIBLE
         if (FakeAhPeeClient.instance.posts.value!!.size == 0) {
-            FakeAhPeeClient.instance.loadPosts({
-                postsAdapter.data.addAll(it)
-                postsAdapter.notifyDataSetChanged()
-            },
-                {
-                    Toast.makeText(this@MainActivity, "LOX", Toast.LENGTH_SHORT).show()
+            FakeAhPeeClient.instance.loadPosts(
+                FakeAhPeeClient.instance.commonSuccessHandler({
+                    progress_bar.visibility = View.GONE
+                }, {
+                    postsAdapter.data.addAll(it)
+                    postsAdapter.notifyDataSetChanged()
+                }),
+                FakeAhPeeClient.instance.commonErrorNotifierAction {
+                    progress_bar.visibility = View.GONE
                 })
         }
     }
 
     private fun initRecycler(data: MutableList<Post>) {
-        postsAdapter = PostsAdapter(data)
+        postsAdapter = PostsAdapter(data, { progress_bar.visibility = View.GONE }, {
+            Toast.makeText(
+                this,
+                "post was successfully deleted",
+                Toast.LENGTH_LONG
+            ).show()
+            Log.i("DELETE", "post was successfully deleted")
+        })
         FakeAhPeeClient.instance.posts.observe(this) { postsAdapter.notifyDataSetChanged() }
         recycler_posts.adapter = postsAdapter
         recycler_posts.layoutManager = LinearLayoutManager(this)

@@ -18,12 +18,27 @@ class FakeAhPeeClient : Application() {
     var posts = MutableLiveData<MutableList<Post>>().apply { value = mutableListOf() }
     private lateinit var postNetwork: PostNetwork
     private lateinit var moshiConverterFactory: MoshiConverterFactory
-    private val commonErrorNotifier: (Throwable) -> Unit = {
-        Toast.makeText(
-            this@FakeAhPeeClient,
-            it.localizedMessage,
-            Toast.LENGTH_LONG
-        ).show()
+    val commonErrorNotifierAction: (() -> Unit) -> ((Throwable) -> Unit) =
+        { fn ->
+            { it ->
+                Toast.makeText(
+                    this@FakeAhPeeClient,
+                    it.localizedMessage,
+                    Toast.LENGTH_LONG
+                ).show()
+                fn()
+            }
+        }
+
+    fun <T> commonSuccessHandler(fn1: () -> Unit, fn2: ((T) -> Unit)?): (T) -> Unit {
+        return { it -> fn1(); if (fn2 != null) fn2(it) }
+    }
+
+    fun <T> commonPrevRunner(
+        fn1: () -> Unit,
+        fn2: (() -> Unit, ((T) -> Unit)?) -> ((T) -> Unit)
+    ): (() -> Unit, ((T) -> Unit)?) -> ((T) -> Unit) {
+        return { f1, f2 -> fn1(); fn2(f1, f2) }
     }
 
     override fun onCreate() {
@@ -40,40 +55,32 @@ class FakeAhPeeClient : Application() {
         postNetwork = retrofit.create()
     }
 
-    fun loadPosts(success: (response: List<Post>) -> Unit, failure: (t: Throwable) -> Unit) {
+    fun loadPosts(
+        success: (response: List<Post>) -> Unit,
+        failure: ((Throwable) -> Unit)
+    ) {
         postNetwork.getPosts().enqueue(commonCallback<List<Post>>(success, failure))
     }
 
-    fun deletePost(id: Int) {
-        postNetwork.deletePost(id).enqueue(commonCallback<ResponseBody>({
-            Toast.makeText(
-                this@FakeAhPeeClient,
-                "post was successfully deleted",
-                Toast.LENGTH_LONG
-            ).show()
-            Log.i("DELETE", "post was successfully deleted")
-        }, commonErrorNotifier))
+    fun deletePost(
+        id: Int,
+        success: (response: ResponseBody) -> Unit,
+        failure: (Throwable) -> Unit
+    ) {
+        postNetwork.deletePost(id).enqueue(commonCallback<ResponseBody>(success, failure))
     }
 
-    fun postPost(post: Post) {
-        postNetwork.postPost(post).enqueue(
-            commonCallback<Post>(
-                {
-                    Toast.makeText(
-                        this@FakeAhPeeClient,
-                        "post $it was successfully published",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    Log.i("POST", "post $it was successfully published")
-                },
-                commonErrorNotifier
-            )
-        )
+    fun postPost(
+        post: Post,
+        success: (post: Post) -> Unit,
+        failure: ((Throwable) -> Unit)
+    ) {
+        postNetwork.postPost(post).enqueue(commonCallback<Post>(success, failure))
     }
 
     private fun <T> commonCallback(
         success: (response: T) -> Unit,
-        failure: (t: Throwable) -> Unit
+        failure: (Throwable) -> Unit
     ): Callback<T> {
         return object : Callback<T> {
             override fun onResponse(call: Call<T>, response: Response<T>) {

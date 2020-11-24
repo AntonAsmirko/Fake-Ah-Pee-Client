@@ -2,6 +2,8 @@ package com.example.fakeahpeeclient.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.network.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
@@ -17,7 +19,17 @@ class CreatePostActivity : AppCompatActivity() {
             var maxId = -1
             FakeAhPeeClient.instance.posts.value!!.forEach { if (it.id > maxId) maxId = it.id }
             Post(content, ++maxId, title, 1).apply {
-                FakeAhPeeClient.instance.postPost(this)
+                FakeAhPeeClient.instance.postPost(
+                    this,
+                    {
+                        Toast.makeText(
+                            this@CreatePostActivity,
+                            "post $it was successfully published",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        Log.i("POST", "post $it was successfully published")
+                    },
+                    FakeAhPeeClient.instance.commonErrorNotifierAction {})
                 FakeAhPeeClient.instance.posts.value!!.add(this)
                 FakeAhPeeClient.instance.posts.value = FakeAhPeeClient.instance.posts.value
                 finish()
