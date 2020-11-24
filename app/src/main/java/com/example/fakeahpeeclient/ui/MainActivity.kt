@@ -44,10 +44,11 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(i, MAKE_POST_REQUEST)
             return@setOnMenuItemClickListener true
         }
-        if (FakeAhPeeClient.instance.posts.value!!.isEmpty()) progress_bar.visibility = View.VISIBLE
-        if (FakeAhPeeClient.instance.posts.value!!.size == 0) {
+        if (FakeAhPeeClient.instance.posts.value!!.isEmpty()) {
             FakeAhPeeClient.instance.loadPosts(
-                FakeAhPeeClient.instance.commonSuccessHandler({
+                FakeAhPeeClient.commonPrevRunner<List<Post>>(
+                    { progress_bar.visibility = View.VISIBLE },
+                    { fn1, fn2 -> { it -> fn1(); if (fn2 != null) fn2(it) } })({
                     progress_bar.visibility = View.GONE
                 }, {
                     postsAdapter.data.addAll(it)
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             ).show()
             Log.i("DELETE", "post was successfully deleted")
-        })
+        }, { progress_bar.visibility = View.VISIBLE })
         FakeAhPeeClient.instance.posts.observe(this) { postsAdapter.notifyDataSetChanged() }
         recycler_posts.adapter = postsAdapter
         recycler_posts.layoutManager = LinearLayoutManager(this)

@@ -30,17 +30,6 @@ class FakeAhPeeClient : Application() {
             }
         }
 
-    fun <T> commonSuccessHandler(fn1: () -> Unit, fn2: ((T) -> Unit)?): (T) -> Unit {
-        return { it -> fn1(); if (fn2 != null) fn2(it) }
-    }
-
-    fun <T> commonPrevRunner(
-        fn1: () -> Unit,
-        fn2: (() -> Unit, ((T) -> Unit)?) -> ((T) -> Unit)
-    ): (() -> Unit, ((T) -> Unit)?) -> ((T) -> Unit) {
-        return { f1, f2 -> fn1(); fn2(f1, f2) }
-    }
-
     override fun onCreate() {
         super.onCreate()
         Log.i("YO", "Application was created")
@@ -96,6 +85,14 @@ class FakeAhPeeClient : Application() {
     }
 
     companion object {
+
+        fun <T> commonPrevRunner(
+            fn1: () -> Unit,
+            fn2: (() -> Unit, ((T) -> Unit)?) -> ((T) -> Unit)
+        ): (() -> Unit, ((T) -> Unit)?) -> ((T) -> Unit) {
+            return { f1, f2 -> fn1(); fn2(f1, f2) }
+        }
+
         lateinit var instance: FakeAhPeeClient
         const val BASE_URL = "https://jsonplaceholder.typicode.com/"
     }

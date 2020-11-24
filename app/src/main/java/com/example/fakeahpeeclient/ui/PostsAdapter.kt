@@ -16,7 +16,8 @@ import okhttp3.ResponseBody
 class PostsAdapter(
     var data: MutableList<Post>,
     val callbackProgressBar: () -> Unit,
-    val callbackNotification: (ResponseBody) -> Unit
+    val callbackNotification: (ResponseBody) -> Unit,
+    val callbackTurnOnProgressBar: () -> Unit
 ) :
     RecyclerView.Adapter<PostsAdapter.PostHolder>() {
 
@@ -35,7 +36,7 @@ class PostsAdapter(
         return data.size
     }
 
-    inner class PostHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    inner class PostHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         lateinit var title: String
         lateinit var content: String
         var id = -1
@@ -51,7 +52,13 @@ class PostsAdapter(
             view.delete_button.setOnClickListener {
                 FakeAhPeeClient.instance.deletePost(
                     this.id,
-                    FakeAhPeeClient.instance.commonSuccessHandler(callbackProgressBar, callbackNotification),
+                    FakeAhPeeClient.commonPrevRunner<ResponseBody>(
+                        callbackTurnOnProgressBar,
+                        { fn1, fn2 -> { it -> fn1(); if (fn2 != null) fn2(it) } }
+                    )(
+                        callbackProgressBar,
+                        callbackNotification
+                    ),
                     FakeAhPeeClient.instance.commonErrorNotifierAction(callbackProgressBar)
                 )
                 var i = -1
