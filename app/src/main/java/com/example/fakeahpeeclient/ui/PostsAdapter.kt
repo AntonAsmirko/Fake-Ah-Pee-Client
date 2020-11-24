@@ -38,8 +38,8 @@ class PostsAdapter(var data: MutableList<Post>) : RecyclerView.Adapter<PostsAdap
             this.content = content
             this.id = id
             this.userId = userId
-            view.title.text = title
-            view.content.text = content
+            view.title.text = title.trim()
+            view.content.text = content.trim()
             view.delete_button.setOnClickListener {
                 FakeAhPeeClient.instance.deletePost(this.id)
                 var i = -1

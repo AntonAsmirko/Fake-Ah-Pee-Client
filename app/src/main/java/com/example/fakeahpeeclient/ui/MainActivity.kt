@@ -1,10 +1,12 @@
 package com.example.fakeahpeeclient.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,15 +22,21 @@ import kotlinx.android.synthetic.main.post_holder.*
 import retrofit2.*
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class   MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var postsAdapter: PostsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
         initRecycler(FakeAhPeeClient.instance.posts)
         Log.i("YO", "Activity was created")
+        toolbar.setOnMenuItemClickListener {
+            val i = Intent(this, CreatePostActivity::class.java)
+            startActivity(i)
+            return@setOnMenuItemClickListener true
+        }
         if (FakeAhPeeClient.instance.posts.size == 0) {
             FakeAhPeeClient.instance.loadPosts({
                 postsAdapter.data.addAll(it)
@@ -49,5 +57,10 @@ class   MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         FakeAhPeeClient.instance.posts = postsAdapter.data
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 }

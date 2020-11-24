@@ -60,6 +60,25 @@ class FakeAhPeeClient : Application() {
         })
     }
 
+    fun postPost(post: Post) {
+        postNetwork.postPost(post).enqueue(commonCallback<Post>())
+    }
+
+    private fun <T> commonCallback(): Callback<T> {
+        return object : Callback<T> {
+            override fun onResponse(call: Call<T>, response: Response<T>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@FakeAhPeeClient, "Success", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<T>, t: Throwable) {
+
+            }
+
+        }
+    }
+
     companion object {
         lateinit var instance: FakeAhPeeClient
     }

@@ -3,9 +3,7 @@ package com.example.fakeahpeeclient.network
 import com.example.fakeahpeeclient.network.model.Post
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.*
 
 
 interface PostNetwork {
@@ -15,4 +13,7 @@ interface PostNetwork {
 
     @DELETE("posts/{num}")
     fun deletePost(@Path("num") num: Int): Call<ResponseBody>
+
+    @POST("posts")
+    fun postPost(@Body post: Post): Call<Post>
 }
