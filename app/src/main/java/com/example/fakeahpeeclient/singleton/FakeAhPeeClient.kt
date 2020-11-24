@@ -3,6 +3,8 @@ package com.example.fakeahpeeclient.singleton
 import android.app.Application
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.example.fakeahpeeclient.network.PostNetwork
 import com.example.fakeahpeeclient.network.model.Post
@@ -13,9 +15,16 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class FakeAhPeeClient : Application() {
 
     private lateinit var retrofit: Retrofit
-    var posts = mutableListOf<Post>()
+    var posts = MutableLiveData<MutableList<Post>>().apply { value = mutableListOf() }
     private lateinit var postNetwork: PostNetwork
     private lateinit var moshiConverterFactory: MoshiConverterFactory
+    private val commonErrorNotifier: (Throwable) -> Unit = {
+        Toast.makeText(
+            this@FakeAhPeeClient,
+            it.localizedMessage,
+            Toast.LENGTH_LONG
+        ).show()
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -25,61 +34,62 @@ class FakeAhPeeClient : Application() {
         moshiConverterFactory = MoshiConverterFactory.create()
         retrofit = Retrofit
             .Builder()
-            .baseUrl("https://jsonplaceholder.typicode.com/")
+            .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
         postNetwork = retrofit.create()
     }
 
     fun loadPosts(success: (response: List<Post>) -> Unit, failure: (t: Throwable) -> Unit) {
-        postNetwork.getPosts().enqueue(object : Callback<List<Post>> {
-            override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
+        postNetwork.getPosts().enqueue(commonCallback<List<Post>>(success, failure))
+    }
+
+    fun deletePost(id: Int) {
+        postNetwork.deletePost(id).enqueue(commonCallback<ResponseBody>({
+            Toast.makeText(
+                this@FakeAhPeeClient,
+                "post was successfully deleted",
+                Toast.LENGTH_LONG
+            ).show()
+            Log.i("DELETE", "post was successfully deleted")
+        }, commonErrorNotifier))
+    }
+
+    fun postPost(post: Post) {
+        postNetwork.postPost(post).enqueue(
+            commonCallback<Post>(
+                {
+                    Toast.makeText(
+                        this@FakeAhPeeClient,
+                        "post $it was successfully published",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    Log.i("POST", "post $it was successfully published")
+                },
+                commonErrorNotifier
+            )
+        )
+    }
+
+    private fun <T> commonCallback(
+        success: (response: T) -> Unit,
+        failure: (t: Throwable) -> Unit
+    ): Callback<T> {
+        return object : Callback<T> {
+            override fun onResponse(call: Call<T>, response: Response<T>) {
                 if (response.isSuccessful) {
                     success(response.body()!!)
                 }
             }
 
-            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
+            override fun onFailure(call: Call<T>, t: Throwable) {
                 failure(t)
             }
-        })
-    }
-
-    fun deletePost(id: Int) {
-        postNetwork.deletePost(id).enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if (response.isSuccessful) {
-                    Toast.makeText(this@FakeAhPeeClient, "Success", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-
-            }
-
-        })
-    }
-
-    fun postPost(post: Post) {
-        postNetwork.postPost(post).enqueue(commonCallback<Post>())
-    }
-
-    private fun <T> commonCallback(): Callback<T> {
-        return object : Callback<T> {
-            override fun onResponse(call: Call<T>, response: Response<T>) {
-                if (response.isSuccessful) {
-                    Toast.makeText(this@FakeAhPeeClient, "Success", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<T>, t: Throwable) {
-
-            }
-
         }
     }
 
     companion object {
         lateinit var instance: FakeAhPeeClient
+        const val BASE_URL = "https://jsonplaceholder.typicode.com/"
     }
 }

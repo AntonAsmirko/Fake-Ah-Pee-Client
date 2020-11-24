@@ -15,8 +15,13 @@ class CreatePostActivity : AppCompatActivity() {
             val title = edit_title.text.toString()
             val content = edit_content.text.toString()
             var maxId = -1
-            FakeAhPeeClient.instance.posts.forEach { if (it.id > maxId) maxId = it.id }
-            FakeAhPeeClient.instance.postPost(Post(content, ++maxId, title, 1))
+            FakeAhPeeClient.instance.posts.value!!.forEach { if (it.id > maxId) maxId = it.id }
+            Post(content, ++maxId, title, 1).apply {
+                FakeAhPeeClient.instance.postPost(this)
+                FakeAhPeeClient.instance.posts.value!!.add(this)
+                FakeAhPeeClient.instance.posts.value = FakeAhPeeClient.instance.posts.value
+                finish()
+            }
         }
     }
 }
