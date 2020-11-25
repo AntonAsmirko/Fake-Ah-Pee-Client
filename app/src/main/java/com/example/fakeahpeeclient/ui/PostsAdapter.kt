@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fakeahpeeclient.R
@@ -30,13 +31,15 @@ class PostsAdapter(
     override fun onBindViewHolder(holder: PostHolder, position: Int) {
         val post = data[position]
         holder.fillView(post.title, post.body, post.id, post.userId)
+        holder.view.animation =
+            AnimationUtils.loadAnimation(holder.itemView.context, R.anim.anim_recycler_item)
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
 
-    inner class PostHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    inner class PostHolder(val view: View) : RecyclerView.ViewHolder(view) {
         lateinit var title: String
         lateinit var content: String
         var id = -1
