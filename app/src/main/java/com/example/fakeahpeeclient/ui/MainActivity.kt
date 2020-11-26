@@ -15,6 +15,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.network.PostNetwork
 import com.example.fakeahpeeclient.network.model.Post
@@ -31,45 +32,51 @@ class MainActivity : AppCompatActivity() {
         const val MAKE_POST_REQUEST = 101
     }
 
-    private lateinit var postsAdapter: PostsAdapter
+    private var postsAdapter: PostsAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        initRecycler(FakeAhPeeClient.instance.posts.value!!)
+        initRecycler(FakeAhPeeClient.instance.posts)
         Log.i("YO", "Activity was created")
         toolbar.setOnMenuItemClickListener {
             val i = Intent(this, CreatePostActivity::class.java)
             startActivityForResult(i, MAKE_POST_REQUEST)
+            postsAdapter?.notifyDataSetChanged()
             return@setOnMenuItemClickListener true
         }
-        if (FakeAhPeeClient.instance.posts.value!!.isEmpty()) {
-            FakeAhPeeClient.instance.loadPosts(
-                FakeAhPeeClient.commonPrevRunner<List<Post>>(
-                    { progress_bar.visibility = View.VISIBLE },
-                    { fn1, fn2 -> { it -> fn1(); if (fn2 != null) fn2(it) } })({
-                    progress_bar.visibility = View.GONE
-                }, {
-                    postsAdapter.data.addAll(it)
-                    postsAdapter.notifyDataSetChanged()
-                }),
-                FakeAhPeeClient.instance.commonErrorNotifierAction {
-                    progress_bar.visibility = View.GONE
-                })
+        swipe_refresh_layout.setOnRefreshListener {
+            postsAdapter?.clear()
+            loadPosts(swipe_refresh_layout)
+        }
+        if (FakeAhPeeClient.instance.posts.isEmpty()) {
+            progress_bar.visibility = View.VISIBLE
+            loadPosts()
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        postsAdapter?.clearResources()
+        postsAdapter = null
+    }
+
+    private fun loadPosts(swipeRefreshLayout: SwipeRefreshLayout? = null) {
+        FakeAhPeeClient.instance.loadPosts(
+            {
+                postsAdapter!!.data.addAll(it)
+                progress_bar.visibility = View.GONE
+                postsAdapter!!.notifyDataSetChanged()
+            },
+            {
+                if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
+                progress_bar.visibility = View.GONE
+            })
+    }
+
     private fun initRecycler(data: MutableList<Post>) {
-        postsAdapter = PostsAdapter(data, { progress_bar.visibility = View.GONE }, {
-            Toast.makeText(
-                this,
-                "post was successfully deleted",
-                Toast.LENGTH_LONG
-            ).show()
-            Log.i("DELETE", "post was successfully deleted")
-        }, { progress_bar.visibility = View.VISIBLE })
-        FakeAhPeeClient.instance.posts.observe(this) { postsAdapter.notifyDataSetChanged() }
+        postsAdapter = PostsAdapter(data, progress_bar)
         recycler_posts.adapter = postsAdapter
         recycler_posts.layoutManager = LinearLayoutManager(this)
     }

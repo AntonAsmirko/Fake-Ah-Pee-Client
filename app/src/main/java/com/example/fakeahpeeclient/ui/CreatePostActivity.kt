@@ -17,7 +17,7 @@ class CreatePostActivity : AppCompatActivity() {
             val title = edit_title.text.toString()
             val content = edit_content.text.toString()
             var maxId = -1
-            FakeAhPeeClient.instance.posts.value!!.forEach { if (it.id > maxId) maxId = it.id }
+            FakeAhPeeClient.instance.posts.forEach { if (it.id > maxId) maxId = it.id }
             Post(content, ++maxId, title, 1).apply {
                 FakeAhPeeClient.instance.postPost(
                     this,
@@ -29,9 +29,14 @@ class CreatePostActivity : AppCompatActivity() {
                         ).show()
                         Log.i("POST", "post $it was successfully published")
                     },
-                    FakeAhPeeClient.instance.commonErrorNotifierAction {})
-                FakeAhPeeClient.instance.posts.value!!.add(this)
-                FakeAhPeeClient.instance.posts.value = FakeAhPeeClient.instance.posts.value
+                    {
+                        Toast.makeText(
+                            this@CreatePostActivity,
+                            "Some error occured while post request",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    })
+                FakeAhPeeClient.instance.posts.add(this)
                 finish()
             }
         }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fakeahpeeclient.R
@@ -16,9 +17,7 @@ import okhttp3.ResponseBody
 
 class PostsAdapter(
     var data: MutableList<Post>,
-    val callbackProgressBar: () -> Unit,
-    val callbackNotification: (ResponseBody) -> Unit,
-    val callbackTurnOnProgressBar: () -> Unit
+    var progressBar: ProgressBar?,
 ) :
     RecyclerView.Adapter<PostsAdapter.PostHolder>() {
 
@@ -39,6 +38,15 @@ class PostsAdapter(
         return data.size
     }
 
+    fun clear() {
+        data.clear()
+        notifyDataSetChanged()
+    }
+
+    fun clearResources(){
+        progressBar = null
+    }
+
     inner class PostHolder(val view: View) : RecyclerView.ViewHolder(view) {
         lateinit var title: String
         lateinit var content: String
@@ -53,16 +61,15 @@ class PostsAdapter(
             view.title.text = title.trim()
             view.content.text = content.trim()
             view.delete_button.setOnClickListener {
+                progressBar?.visibility = View.VISIBLE
                 FakeAhPeeClient.instance.deletePost(
                     this.id,
-                    FakeAhPeeClient.commonPrevRunner<ResponseBody>(
-                        callbackTurnOnProgressBar,
-                        { fn1, fn2 -> { it -> fn1(); if (fn2 != null) fn2(it) } }
-                    )(
-                        callbackProgressBar,
-                        callbackNotification
-                    ),
-                    FakeAhPeeClient.instance.commonErrorNotifierAction(callbackProgressBar)
+                    {
+                        progressBar?.visibility = View.GONE
+                    },
+                    {
+                        progressBar?.visibility = View.GONE
+                    }
                 )
                 var i = -1
                 data.forEachIndexed { index, post ->

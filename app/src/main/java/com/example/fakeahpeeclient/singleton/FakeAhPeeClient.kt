@@ -15,20 +15,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class FakeAhPeeClient : Application() {
 
     private lateinit var retrofit: Retrofit
-    var posts = MutableLiveData<MutableList<Post>>().apply { value = mutableListOf() }
+    var posts = mutableListOf<Post>()
     private lateinit var postNetwork: PostNetwork
     private lateinit var moshiConverterFactory: MoshiConverterFactory
-    val commonErrorNotifierAction: (() -> Unit) -> ((Throwable) -> Unit) =
-        { fn ->
-            { it ->
-                Toast.makeText(
-                    this@FakeAhPeeClient,
-                    it.localizedMessage,
-                    Toast.LENGTH_LONG
-                ).show()
-                fn()
-            }
-        }
 
     override fun onCreate() {
         super.onCreate()
@@ -76,22 +65,17 @@ class FakeAhPeeClient : Application() {
                 if (response.isSuccessful) {
                     success(response.body()!!)
                 }
+                call.cancel()
             }
 
             override fun onFailure(call: Call<T>, t: Throwable) {
                 failure(t)
+                call.cancel()
             }
         }
     }
 
     companion object {
-
-        fun <T> commonPrevRunner(
-            fn1: () -> Unit,
-            fn2: (() -> Unit, ((T) -> Unit)?) -> ((T) -> Unit)
-        ): (() -> Unit, ((T) -> Unit)?) -> ((T) -> Unit) {
-            return { f1, f2 -> fn1(); fn2(f1, f2) }
-        }
 
         lateinit var instance: FakeAhPeeClient
         const val BASE_URL = "https://jsonplaceholder.typicode.com/"
