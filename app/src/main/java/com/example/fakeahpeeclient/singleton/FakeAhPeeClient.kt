@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.example.fakeahpeeclient.network.PostNetwork
 import com.example.fakeahpeeclient.network.model.Post
+import com.example.fakeahpeeclient.ui.PostsAdapter
 import okhttp3.ResponseBody
 import retrofit2.*
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -15,7 +16,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class FakeAhPeeClient : Application() {
 
     private lateinit var retrofit: Retrofit
-    var posts = mutableListOf<Post>()
+    var postsAdapter: PostsAdapter? = null
     private lateinit var postNetwork: PostNetwork
     private lateinit var moshiConverterFactory: MoshiConverterFactory
 

@@ -17,7 +17,7 @@ class CreatePostActivity : AppCompatActivity() {
             val title = edit_title.text.toString()
             val content = edit_content.text.toString()
             var maxId = -1
-            FakeAhPeeClient.instance.posts.forEach { if (it.id > maxId) maxId = it.id }
+            FakeAhPeeClient.instance.postsAdapter?.data?.forEach { if (it.id > maxId) maxId = it.id }
             Post(content, ++maxId, title, 1).apply {
                 FakeAhPeeClient.instance.postPost(
                     this,
@@ -36,7 +36,7 @@ class CreatePostActivity : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         ).show()
                     })
-                FakeAhPeeClient.instance.posts.add(this)
+                FakeAhPeeClient.instance.postsAdapter?.data?.add(this)
                 finish()
             }
         }
