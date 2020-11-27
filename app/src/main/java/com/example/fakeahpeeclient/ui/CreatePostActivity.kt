@@ -37,6 +37,7 @@ class CreatePostActivity : AppCompatActivity() {
                         ).show()
                     })
                 FakeAhPeeClient.instance.postsAdapter?.data?.add(this)
+                FakeAhPeeClient.instance.postsAdapter?.notifyDataSetChanged()
                 finish()
             }
         }
