@@ -1,6 +1,8 @@
 package com.example.fakeahpeeclient.singleton
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.room.Room
 import com.example.fakeahpeeclient.network.PostNetwork
@@ -16,12 +18,15 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class FakeAhPeeClient : Application() {
 
+
     private lateinit var retrofit: Retrofit
     var postsAdapter: PostsAdapter? = null
     private lateinit var postNetwork: PostNetwork
     private lateinit var moshiConverterFactory: MoshiConverterFactory
     private lateinit var db: AppDatabase
     private lateinit var postDAO: PostDAO
+    private var sharedPref: SharedPreferences? = getSharedPreferences(BD_IS_EMPTY, Context.MODE_PRIVATE)
+    var isBDEmpty = sharedPref?.getBoolean(IS_BD_EMPTY, false) ?: false
 
     override fun onCreate() {
         super.onCreate()
@@ -100,5 +105,7 @@ class FakeAhPeeClient : Application() {
 
         lateinit var instance: FakeAhPeeClient
         const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+        const val BD_IS_EMPTY = "BD_IS_EMPTY"
+        const val IS_BD_EMPTY = "110101010101023"
     }
 }
