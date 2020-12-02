@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        swipe_refresh_layout.isRefreshing = false
         FakeAhPeeClient.instance.postsAdapter?.clearResources()
     }
 
