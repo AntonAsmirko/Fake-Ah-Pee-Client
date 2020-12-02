@@ -1,6 +1,7 @@
 package com.example.fakeahpeeclient.ui
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -36,7 +37,14 @@ class MainActivity : AppCompatActivity() {
         }
         if (FakeAhPeeClient.instance.postsAdapter?.data?.isEmpty() ?: false) {
             progress_bar.visibility = View.VISIBLE
-            fetchPosts()
+            if (FakeAhPeeClient.instance.isBDEmpty) {
+                fetchPosts()
+                FakeAhPeeClient.instance.isBDEmpty = false
+                FakeAhPeeClient.instance.sharedPref?.edit()?.apply {
+                    putBoolean(FakeAhPeeClient.IS_BD_EMPTY, false)
+                    apply()
+                }
+            } else FakeAhPeeClient.instance.loadAllPosts()
         }
     }
 
