@@ -1,6 +1,6 @@
 package com.example.fakeahpeeclient.network
 
-import com.example.fakeahpeeclient.network.model.Post
+import com.example.fakeahpeeclient.model.Post
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*

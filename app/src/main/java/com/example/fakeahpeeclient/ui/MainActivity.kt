@@ -32,11 +32,11 @@ class MainActivity : AppCompatActivity() {
         }
         swipe_refresh_layout.setOnRefreshListener {
             FakeAhPeeClient.instance.postsAdapter?.clear()
-            loadPosts(swipe_refresh_layout)
+            fetchPosts(swipe_refresh_layout)
         }
         if (FakeAhPeeClient.instance.postsAdapter?.data?.isEmpty() ?: false) {
             progress_bar.visibility = View.VISIBLE
-            loadPosts()
+            fetchPosts()
         }
     }
 
@@ -45,8 +45,8 @@ class MainActivity : AppCompatActivity() {
         FakeAhPeeClient.instance.postsAdapter?.clearResources()
     }
 
-    private fun loadPosts(swipeRefreshLayout: SwipeRefreshLayout? = null) {
-        FakeAhPeeClient.instance.loadPosts(
+    private fun fetchPosts(swipeRefreshLayout: SwipeRefreshLayout? = null) {
+        FakeAhPeeClient.instance.fetchPosts(
             {
                 FakeAhPeeClient.instance.postsAdapter?.data?.addAll(it)
                 progress_bar.visibility = View.GONE

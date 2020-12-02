@@ -1,19 +1,15 @@
 package com.example.fakeahpeeclient.ui
 
-import android.app.Notification
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fakeahpeeclient.R
-import com.example.fakeahpeeclient.network.model.Post
+import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import kotlinx.android.synthetic.main.post_holder.view.*
-import okhttp3.ResponseBody
 
 class PostsAdapter(
     var data: MutableList<Post>,

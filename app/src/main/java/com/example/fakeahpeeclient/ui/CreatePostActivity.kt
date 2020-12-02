@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.fakeahpeeclient.R
-import com.example.fakeahpeeclient.network.model.Post
+import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import kotlinx.android.synthetic.main.activity_create_post.*
 
