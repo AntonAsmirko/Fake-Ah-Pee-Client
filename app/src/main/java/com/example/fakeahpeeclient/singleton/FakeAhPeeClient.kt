@@ -8,6 +8,8 @@ import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.storage.AppDatabase
 import com.example.fakeahpeeclient.storage.PostDAO
 import com.example.fakeahpeeclient.ui.PostsAdapter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.*
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -47,8 +49,11 @@ class FakeAhPeeClient : Application() {
         postNetwork.getPosts().enqueue(commonCallback<List<Post>>(success, failure))
     }
 
-    fun loadPosts(){
-        postDAO.getAll()
+    fun loadPosts() {
+        GlobalScope.launch {
+            val result = postDAO.getAll()
+            postsAdapter?.data?.addAll(result)
+        }
     }
 
     fun deletePost(
@@ -64,8 +69,12 @@ class FakeAhPeeClient : Application() {
         success: (post: Post) -> Unit,
         failure: ((Throwable) -> Unit)
     ) {
-        postDAO.insert(post)
+        GlobalScope.launch { postDAO.insertAll(post) }
         postNetwork.postPost(post).enqueue(commonCallback<Post>(success, failure))
+    }
+
+    fun persistAllPosts(posts: List<Post>) {
+        GlobalScope.launch { postDAO.insertAll(*posts.toTypedArray()) }
     }
 
     private fun <T> commonCallback(

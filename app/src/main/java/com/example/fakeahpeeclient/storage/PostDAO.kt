@@ -11,8 +11,8 @@ import com.example.fakeahpeeclient.model.Post
 interface PostDAO {
 
     @Query("SELECT * FROM post")
-    suspend fun getAll(): LiveData<List<Post>>
+    suspend fun getAll(): List<Post>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(post: Post)
+    suspend fun insertAll(vararg post: Post)
 }

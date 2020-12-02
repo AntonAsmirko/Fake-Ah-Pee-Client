@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
                 progress_bar.visibility = View.GONE
                 FakeAhPeeClient.instance.postsAdapter?.notifyDataSetChanged()
                 if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
+                FakeAhPeeClient.instance.persistAllPosts(it)
             },
             {
                 if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
