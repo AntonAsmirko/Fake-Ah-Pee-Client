@@ -33,10 +33,10 @@ class MainActivity : AppCompatActivity() {
         }
         swipe_refresh_layout.setOnRefreshListener {
             FakeAhPeeClient.instance.postsAdapter?.clear()
+            FakeAhPeeClient.instance.clearBD()
             fetchPosts(swipe_refresh_layout)
         }
         if (FakeAhPeeClient.instance.postsAdapter?.data?.isEmpty() ?: false) {
-            progress_bar.visibility = View.VISIBLE
             if (FakeAhPeeClient.instance.isBDEmpty) {
                 fetchPosts()
                 FakeAhPeeClient.instance.isBDEmpty = false
@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchPosts(swipeRefreshLayout: SwipeRefreshLayout? = null) {
+        progress_bar.visibility = View.VISIBLE
         FakeAhPeeClient.instance.fetchPosts(
             {
                 FakeAhPeeClient.instance.postsAdapter?.data?.addAll(it)

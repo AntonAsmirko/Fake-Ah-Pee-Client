@@ -25,13 +25,16 @@ class FakeAhPeeClient : Application() {
     private lateinit var moshiConverterFactory: MoshiConverterFactory
     private lateinit var db: AppDatabase
     private lateinit var postDAO: PostDAO
-    val sharedPref = getSharedPreferences(BD_IS_EMPTY, Context.MODE_PRIVATE)
-    var isBDEmpty = sharedPref?.getBoolean(IS_BD_EMPTY, true) ?: true
+    var sharedPref: SharedPreferences? = null
+    var isBDEmpty = true
 
     override fun onCreate() {
         super.onCreate()
         Log.i("YO", "Application was created")
         instance = this
+
+        sharedPref = getSharedPreferences(BD_IS_EMPTY, Context.MODE_PRIVATE)
+        isBDEmpty = sharedPref?.getBoolean(IS_BD_EMPTY, true) ?: true
 
         moshiConverterFactory = MoshiConverterFactory.create()
         retrofit = Retrofit
@@ -67,6 +70,18 @@ class FakeAhPeeClient : Application() {
         failure: (Throwable) -> Unit
     ) {
         postNetwork.deletePost(id).enqueue(commonCallback<ResponseBody>(success, failure))
+    }
+
+    fun deletePostFromBD(post: Post){
+        GlobalScope.launch {
+            postDAO.deletePost(post)
+        }
+    }
+
+    fun clearBD(){
+        GlobalScope.launch {
+            postDAO.deleteAll()
+        }
     }
 
     fun postPost(

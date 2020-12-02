@@ -39,7 +39,7 @@ class PostsAdapter(
         notifyDataSetChanged()
     }
 
-    fun clearResources(){
+    fun clearResources() {
         progressBar = null
     }
 
@@ -71,9 +71,11 @@ class PostsAdapter(
                 data.forEachIndexed { index, post ->
                     if (post.id == this.id) {
                         i = index
+                        FakeAhPeeClient.instance.deletePostFromBD(post)
                         return@forEachIndexed
                     }
                 }
+
                 data.removeAt(i)
                 this@PostsAdapter.notifyDataSetChanged()
             }
