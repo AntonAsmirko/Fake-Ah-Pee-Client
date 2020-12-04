@@ -1,10 +1,13 @@
 package com.example.fakeahpeeclient.ui
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ProgressBar
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.model.Post
@@ -13,7 +16,6 @@ import kotlinx.android.synthetic.main.post_holder.view.*
 
 class PostsAdapter(
     var data: MutableList<Post>,
-    var progressBar: ProgressBar?,
 ) :
     RecyclerView.Adapter<PostsAdapter.PostHolder>() {
 
@@ -40,7 +42,6 @@ class PostsAdapter(
     }
 
     fun clearResources() {
-        progressBar = null
     }
 
     inner class PostHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -57,14 +58,11 @@ class PostsAdapter(
             view.title.text = title.trim()
             view.content.text = content.trim()
             view.delete_button.setOnClickListener {
-                progressBar?.visibility = View.VISIBLE
                 FakeAhPeeClient.instance.deletePost(
                     this.id,
                     {
-                        progressBar?.visibility = View.GONE
                     },
                     {
-                        progressBar?.visibility = View.GONE
                     }
                 )
                 var i = -1

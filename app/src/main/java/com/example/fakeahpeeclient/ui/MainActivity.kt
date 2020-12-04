@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.fakeahpeeclient.R
@@ -55,24 +56,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchPosts(swipeRefreshLayout: SwipeRefreshLayout? = null) {
-        progress_bar.visibility = View.VISIBLE
         FakeAhPeeClient.instance.fetchPosts(
             {
                 FakeAhPeeClient.instance.postsAdapter?.data?.addAll(it)
-                progress_bar.visibility = View.GONE
                 FakeAhPeeClient.instance.postsAdapter?.notifyDataSetChanged()
                 if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
                 FakeAhPeeClient.instance.persistAllPosts(it)
             },
             {
                 if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
-                progress_bar.visibility = View.GONE
             })
     }
 
     private fun initRecycler() {
         if (FakeAhPeeClient.instance.postsAdapter == null)
-            FakeAhPeeClient.instance.postsAdapter = PostsAdapter(mutableListOf(), progress_bar)
+            FakeAhPeeClient.instance.postsAdapter = PostsAdapter(mutableListOf())
         recycler_posts.adapter = FakeAhPeeClient.instance.postsAdapter
         recycler_posts.layoutManager = LinearLayoutManager(this)
     }
