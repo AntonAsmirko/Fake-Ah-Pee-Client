@@ -1,18 +1,20 @@
 package com.example.fakeahpeeclient.ui
 
 import android.content.Intent
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Canvas
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.View
-import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -73,6 +75,24 @@ class MainActivity : AppCompatActivity() {
             FakeAhPeeClient.instance.postsAdapter = PostsAdapter(mutableListOf())
         recycler_posts.adapter = FakeAhPeeClient.instance.postsAdapter
         recycler_posts.layoutManager = LinearLayoutManager(this)
+        val swipeController = SwipeController(object : SwipeControllerActions() {
+            override fun onRightClicked(position: Int) {
+                FakeAhPeeClient.instance.postsAdapter?.data?.removeAt(position)
+                FakeAhPeeClient.instance.postsAdapter?.notifyItemRemoved(position)
+                FakeAhPeeClient.instance.postsAdapter?.notifyItemRangeChanged(
+                    position,
+                    FakeAhPeeClient.instance.postsAdapter?.data?.size ?: 0
+                )
+            }
+        })
+        recycler_posts.addItemDecoration(object : ItemDecoration() {
+            override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+                swipeController.onDraw(c)
+            }
+        })
+        val itemTouchHelper = ItemTouchHelper(swipeController).apply {
+            this.attachToRecyclerView(recycler_posts)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
