@@ -35,16 +35,14 @@ class SwipeRefreshLayoutBehavior(context: Context, attrs: AttributeSet?) :
         consumed: IntArray,
         type: Int
     ) {
-        if(prevDy != null && (prevDy ?: 0) > 70) {
-            val params = child.layoutParams as CoordinatorLayout.LayoutParams
-            params.setMargins(
-                child.marginLeft,
-                MathUtils.clamp(child.marginTop - dy, 0, 150),
-                child.marginRight,
-                child.marginBottom
-            )
-            child.layoutParams = params
-        }
+        val params = child.layoutParams as CoordinatorLayout.LayoutParams
+        params.setMargins(
+            child.marginLeft,
+            MathUtils.clamp(child.marginTop - dy, 0, 150),
+            child.marginRight,
+            child.marginBottom
+        )
+        child.layoutParams = params
         prevDy = dy
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
     }
