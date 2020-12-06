@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@+id/post_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            android:elevation="5dp"
+            android:translationX="0dp"/>
+        <Constraint android:id="@id/right_card"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:cardBackgroundColor="@color/purple_700"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="20dp"
+            android:translationX="0dp"
+            app:layout_constraintTop_toTopOf="@id/post_card"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintBottom_toBottomOf="@id/post_card"/>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/right_card_visible">
+        <Constraint android:id="@id/post_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            android:elevation="5dp"
+            android:translationX="-80dp"/>
+        <Constraint android:id="@id/right_card"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:cardBackgroundColor="@color/purple_700"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="20dp"
+            android:translationX="-80dp"
+            app:layout_constraintTop_toTopOf="@id/post_card"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintBottom_toBottomOf="@id/post_card"/>
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/right_card_visible"
+        app:constraintSetStart="@+id/start"
+        app:duration="1500"
+        app:motionInterpolator="easeInOut"
+        app:autoTransition="animateToStart">
+        <OnSwipe
+            app:touchAnchorId="@id/post_card"
+            app:dragDirection="dragLeft"
+            app:touchRegionId="@id/post_card"
+            app:touchAnchorSide="middle"/>
+    </Transition>
+</MotionScene>
