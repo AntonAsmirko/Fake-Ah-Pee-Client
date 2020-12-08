@@ -5,12 +5,16 @@
     <ConstraintSet android:id="@+id/start">
         <Constraint
             android:id="@+id/post_card"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:alpha="1"
             android:layout_height="wrap_content"
-            android:translationX="0dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1"
+            android:layout_marginEnd="0dp" />
         <Constraint
             android:id="@+id/right_card"
-            android:translationX="0dp"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
@@ -24,12 +28,16 @@
     <ConstraintSet android:id="@+id/right_card_visible">
         <Constraint
             android:id="@+id/post_card"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:translationX="-80dp" />
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:alpha="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1"
+            android:layout_marginEnd="80dp" />
         <Constraint
             android:id="@+id/right_card"
-            android:translationX="-80dp"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
@@ -43,12 +51,13 @@
     <Transition
         app:constraintSetEnd="@+id/right_card_visible"
         app:constraintSetStart="@+id/start"
-        app:duration="3000"
-        app:autoTransition="animateToStart">
+        app:duration="1500"
+        app:autoTransition="animateToStart"
+        app:motionInterpolator="easeInOut">
         <OnSwipe
             app:dragDirection="dragLeft"
             app:touchAnchorId="@id/post_card"
             app:touchRegionId="@id/post_card"
-            app:touchAnchorSide="middle"/>
+            app:onTouchUp="autoComplete"/>
     </Transition>
 </MotionScene>
