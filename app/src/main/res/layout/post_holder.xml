@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,26 +7,21 @@
     android:layout_margin="5dp"
     app:layoutDescription="@xml/post_holder_scene">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/right_card"
-        android:layout_width="0dp"
-        android:layout_height="0dp">
-        <ImageButton
-            android:id="@+id/delete_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_baseline_delete_24"
-            android:background="@drawable/rounded_corners_for_button"/>
-    </androidx.cardview.widget.CardView>
+    <ImageButton
+        android:id="@+id/delete_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/rounded_corners_for_button"
+        android:scaleType="centerCrop"
+        android:padding="5dp"
+        android:src="@drawable/ic_baseline_delete_24" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/post_card"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:cardCornerRadius="20dp"
-        app:elevation="5dp"
-        android:layout_margin="5dp">
+        app:elevation="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
