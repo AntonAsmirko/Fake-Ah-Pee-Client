@@ -3,53 +3,117 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/start">
-        <Constraint android:id="@+id/post_card"
-            android:layout_width="match_parent"
+        <Constraint
+            android:id="@+id/post_card"
+            android:layout_width="0dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:alpha="1"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
-            android:elevation="5dp"
-            android:translationX="0dp"/>
-        <Constraint android:id="@id/right_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1"
+            android:layout_marginEnd="0dp">
+            <CustomAttribute app:attributeName="cardBackgroundColor"
+                app:customColorValue="@color/gray"/>
+        </Constraint>
+        <Constraint
+            android:id="@+id/delete_button"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            app:cardBackgroundColor="@color/purple_700"
-            android:layout_margin="10dp"
-            app:cardCornerRadius="20dp"
-            android:translationX="0dp"
-            app:layout_constraintTop_toTopOf="@id/post_card"
+            android:alpha="0.5"
+            android:elevation="5dp"
+            android:scaleY="0.5"
+            android:scaleX="0.5"
+            android:rotation="0"
+            app:layout_constraintBottom_toBottomOf="@id/post_card"
             app:layout_constraintStart_toEndOf="@id/post_card"
-            app:layout_constraintBottom_toBottomOf="@id/post_card"/>
+            app:layout_constraintTop_toTopOf="@id/post_card"/>
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/right_card_visible">
-        <Constraint android:id="@id/post_card"
-            android:layout_width="match_parent"
+        <Constraint
+            android:id="@+id/post_card"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
-            android:elevation="5dp"
-            android:translationX="-80dp"/>
-        <Constraint android:id="@id/right_card"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:alpha="0.3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1"
+            android:layout_marginEnd="80dp">
+            <CustomAttribute app:attributeName="cardBackgroundColor"
+                app:customColorValue="#9CFF0000"/>
+        </Constraint>
+        <Constraint
+            android:id="@+id/delete_button"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            app:cardBackgroundColor="@color/purple_700"
-            android:layout_margin="10dp"
-            app:cardCornerRadius="20dp"
-            android:translationX="-80dp"
-            app:layout_constraintTop_toTopOf="@id/post_card"
+            android:elevation="5dp"
+            android:scaleY="1"
+            android:scaleX="1"
+            android:alpha="1"
+            android:rotation="360"
+            app:layout_constraintBottom_toBottomOf="@id/post_card"
             app:layout_constraintStart_toEndOf="@id/post_card"
-            app:layout_constraintBottom_toBottomOf="@id/post_card"/>
+            app:layout_constraintTop_toTopOf="@id/post_card"/>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/right_card_off_screen">
+        <Constraint
+            android:id="@+id/post_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:alpha="0.1"
+            android:translationZ="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1"
+            android:layout_marginEnd="200dp">
+            <CustomAttribute app:attributeName="cardBackgroundColor"
+                app:customColorValue="@color/red"/>
+        </Constraint>
+        <Constraint
+            android:id="@+id/delete_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:elevation="5dp"
+            android:scaleY="1.5"
+            android:scaleX="1.5"
+            android:rotation="360"
+            app:layout_constraintBottom_toBottomOf="@id/post_card"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintTop_toTopOf="@id/post_card"/>
     </ConstraintSet>
 
     <Transition
-        app:constraintSetEnd="@id/right_card_visible"
+        app:constraintSetEnd="@+id/right_card_visible"
         app:constraintSetStart="@+id/start"
-        app:duration="1500"
-        app:motionInterpolator="easeInOut"
-        app:autoTransition="animateToStart">
+        app:duration="500"
+        app:autoTransition="animateToStart"
+        app:motionInterpolator="linear">
         <OnSwipe
-            app:touchAnchorId="@id/post_card"
             app:dragDirection="dragLeft"
+            app:touchAnchorSide="end"
+            app:touchAnchorId="@id/post_card"
             app:touchRegionId="@id/post_card"
-            app:touchAnchorSide="middle"/>
+            app:onTouchUp="decelerateAndComplete"/>
+    </Transition>
+
+
+    <Transition app:constraintSetStart="@id/right_card_visible"
+        app:constraintSetEnd="@id/right_card_off_screen"
+        app:duration="300"
+        app:autoTransition="animateToStart"
+        app:motionInterpolator="easeIn">
+        <OnSwipe
+            app:onTouchUp="autoComplete"
+            app:touchAnchorSide="end"
+            app:touchRegionId="@id/post_card"
+            app:touchAnchorId="@id/post_card"
+            app:dragDirection="dragLeft"/>
+        <OnClick
+            app:clickAction="transitionToEnd"
+            app:targetId="@id/delete_button"/>
     </Transition>
 </MotionScene>
