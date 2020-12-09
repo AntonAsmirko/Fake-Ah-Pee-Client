@@ -73,6 +73,17 @@
             <CustomAttribute app:attributeName="cardBackgroundColor"
                 app:customColorValue="@color/red"/>
         </Constraint>
+        <Constraint
+            android:id="@+id/delete_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:elevation="5dp"
+            android:scaleY="1.5"
+            android:scaleX="1.5"
+            android:rotation="360"
+            app:layout_constraintBottom_toBottomOf="@id/post_card"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintTop_toTopOf="@id/post_card"/>
     </ConstraintSet>
 
     <Transition
@@ -88,6 +99,7 @@
             app:touchRegionId="@id/post_card"
             app:onTouchUp="decelerateAndComplete"/>
     </Transition>
+
 
     <Transition app:constraintSetStart="@id/right_card_visible"
         app:constraintSetEnd="@id/right_card_off_screen"
