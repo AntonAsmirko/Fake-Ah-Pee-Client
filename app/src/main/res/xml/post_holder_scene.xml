@@ -229,12 +229,12 @@
                 app:percentY="0.5"
                 app:percentX="0.5"
                 app:framePosition="50"
+                app:transitionEasing="accelerate"
                 app:motionTarget="@+id/like_button"/>
             <KeyAttribute
                 app:motionTarget="@+id/like_button"
                 android:scaleX="0.5"
                 android:scaleY="0.5"
-                android:alpha="0.3"
                 app:framePosition="50"/>
         </KeyFrameSet>
     </Transition>
