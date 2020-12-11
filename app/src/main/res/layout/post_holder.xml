@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:layoutDescription="@xml/post_holder_scene"
-    app:motionDebug="SHOW_ALL">
+    app:layoutDescription="@xml/post_holder_scene">
 
     <ImageButton
         android:id="@+id/delete_button"
