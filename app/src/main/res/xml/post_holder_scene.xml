@@ -279,7 +279,7 @@
             app:layout_constraintWidth_percent="1"
             android:layout_marginEnd="100dp">
             <CustomAttribute app:attributeName="cardBackgroundColor"
-                app:customColorValue="#9CFF0000"/>
+                app:customColorValue="#A8FF00FB"/>
         </Constraint>
         <Constraint
             android:id="@+id/like_button"
@@ -380,5 +380,10 @@
                 android:scaleY="0.5"
                 app:framePosition="50"/>
         </KeyFrameSet>
+    </Transition>
+    <Transition
+        app:constraintSetStart="@+id/archive_button_visible"
+        app:constraintSetEnd="@+id/like_button_main_trash_down" >
+        <OnClick app:targetId="@+id/like_button" />
     </Transition>
 </MotionScene>
