@@ -222,7 +222,8 @@
     <Transition
         app:constraintSetStart="@+id/right_card_visible"
         app:constraintSetEnd="@+id/archive_button_visible" >
-        <OnClick app:targetId="@+id/archive_button" />
+        <OnClick app:targetId="@+id/archive_button"
+            app:clickAction="transitionToEnd"/>
         <KeyFrameSet>
             <KeyPosition
                 app:keyPositionType="pathRelative"
@@ -242,6 +243,20 @@
         app:constraintSetStart="@+id/archive_button_visible"
         app:constraintSetEnd="@+id/right_card_visible" >
         <OnClick app:targetId="@+id/delete_button" />
+        <KeyFrameSet>
+            <KeyPosition
+                app:keyPositionType="pathRelative"
+                app:percentY="0.5"
+                app:percentX="0.5"
+                app:framePosition="50"
+                app:transitionEasing="accelerate"
+                app:motionTarget="@+id/like_button"/>
+            <KeyAttribute
+                app:motionTarget="@+id/like_button"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                app:framePosition="50"/>
+        </KeyFrameSet>
     </Transition>
     <Transition
         app:constraintSetStart="@+id/right_card_visible"
