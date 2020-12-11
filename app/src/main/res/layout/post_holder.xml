@@ -21,10 +21,10 @@
         android:id="@+id/like_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/rounded_corners_for_button"
+        android:background="@drawable/rounded_top_corners_pink"
         android:scaleType="centerCrop"
         android:padding="5dp"
-        android:src="@drawable/ic_baseline_delete_24" />
+        android:src="@drawable/ic_baseline_favorite_border_24" />
 
     <ImageButton
         android:id="@+id/archive_button"

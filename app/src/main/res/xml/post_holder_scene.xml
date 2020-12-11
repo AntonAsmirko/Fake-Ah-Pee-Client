@@ -47,16 +47,17 @@
 
         <Constraint
             android:id="@+id/like_button"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:alpha="0.5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:alpha="0"
             android:elevation="5dp"
-            android:scaleY="0.5"
-            android:scaleX="0.5"
+            android:scaleY="0"
+            android:scaleX="0"
             android:rotation="0"
-            app:layout_constraintBottom_toBottomOf="@id/post_card"
             app:layout_constraintStart_toEndOf="@id/post_card"
-            app:layout_constraintTop_toTopOf="@id/post_card"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"/>
     </ConstraintSet>
 
 
@@ -100,6 +101,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/post_card"
             android:layout_marginBottom="25dp"
+            android:layout_marginStart="10dp"/>
+
+        <Constraint
+            android:id="@+id/like_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:alpha="1"
+            android:elevation="5dp"
+            android:scaleY="1"
+            android:scaleX="1"
+            android:rotation="0"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            android:layout_marginTop="25dp"
             android:layout_marginStart="10dp"/>
     </ConstraintSet>
 
