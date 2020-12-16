@@ -5,7 +5,7 @@
     <ConstraintSet android:id="@+id/start">
         <Constraint
             android:id="@+id/post_card"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:scaleX="1"
             android:scaleY="1"
             android:alpha="1"
@@ -65,7 +65,7 @@
     <ConstraintSet android:id="@+id/right_card_visible">
         <Constraint
             android:id="@+id/post_card"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleX="1"
             android:scaleY="1"
@@ -123,7 +123,7 @@
     <ConstraintSet android:id="@+id/right_card_off_screen">
         <Constraint
             android:id="@+id/post_card"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleX="0.5"
             android:scaleY="0.5"
@@ -165,7 +165,7 @@
     <ConstraintSet android:id="@+id/archive_button_visible">
         <Constraint
             android:id="@+id/post_card"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleX="1"
             android:scaleY="1"
@@ -261,7 +261,8 @@
     <Transition
         app:constraintSetStart="@+id/right_card_visible"
         app:constraintSetEnd="@+id/right_card_off_screen" >
-        <OnClick app:targetId="@+id/delete_button" />
+        <OnClick app:targetId="@+id/delete_button"
+            app:clickAction="transitionToEnd"/>
         <OnSwipe
             app:touchAnchorId="@+id/post_card"
             app:dragDirection="dragLeft"
@@ -270,7 +271,7 @@
     <ConstraintSet android:id="@+id/like_button_main_trash_down">
         <Constraint
             android:id="@+id/post_card"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleX="1"
             android:scaleY="1"
@@ -405,7 +406,7 @@
     <ConstraintSet android:id="@+id/like_off_screne">
         <Constraint
             android:id="@+id/post_card"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleX="0.5"
             android:scaleY="0.5"
@@ -440,7 +441,7 @@
     <ConstraintSet android:id="@+id/archive_off_screen">
         <Constraint
             android:id="@+id/post_card"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleX="0.5"
             android:scaleY="0.5"

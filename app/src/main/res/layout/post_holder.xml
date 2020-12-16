@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:layoutDescription="@xml/post_holder_scene">
+    app:layoutDescription="@xml/post_holder_scene"
+    android:id="@+id/motion_post_holder">
 
     <ImageButton
         android:id="@+id/delete_button"

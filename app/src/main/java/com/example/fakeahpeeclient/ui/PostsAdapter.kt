@@ -1,7 +1,9 @@
 package com.example.fakeahpeeclient.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -53,6 +55,7 @@ class PostsAdapter(
         var id = -1
         var userId = -1
 
+        @SuppressLint("ClickableViewAccessibility")
         fun fillView(title: String, content: String, id: Int, userId: Int) {
             this.title = title
             this.content = content
@@ -60,29 +63,32 @@ class PostsAdapter(
             this.userId = userId
             view.title.text = title.trim()
             view.content.text = content.trim()
-            view.delete_button.setOnClickListener {
-                CoroutineScope(Dispatchers.Main).launch {
-                    FakeAhPeeClient.instance.deletePost(
-                        id,
-                        {
-                        },
-                        {
-                        }
-                    )
-                }
-                var i = -1
-                data.forEachIndexed { index, post ->
-                    if (post.id == this.id) {
-                        i = index
-                        CoroutineScope(Dispatchers.Main).launch {
-                            FakeAhPeeClient.instance.deletePostFromBD(post)
-                        }
-                        return@forEachIndexed
+            view.delete_button.setOnTouchListener { v, event ->
+                if (event.action == MotionEvent.ACTION_UP && view.motion_post_holder.currentState == R.id.right_card_off_screen) {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        FakeAhPeeClient.instance.deletePost(
+                            id,
+                            {
+                            },
+                            {
+                            }
+                        )
                     }
+                    var i = -1
+                    data.forEachIndexed { index, post ->
+                        if (post.id == id) {
+                            i = index
+                            CoroutineScope(Dispatchers.Main).launch {
+                                FakeAhPeeClient.instance.deletePostFromBD(post)
+                            }
+                            return@forEachIndexed
+                        }
+                    }
+                    view.motion_post_holder.transitionToState(R.id.start)
+                    data.removeAt(i)
+                    this@PostsAdapter.notifyDataSetChanged()
                 }
-
-                data.removeAt(i)
-                this@PostsAdapter.notifyDataSetChanged()
+                return@setOnTouchListener false
             }
         }
     }
