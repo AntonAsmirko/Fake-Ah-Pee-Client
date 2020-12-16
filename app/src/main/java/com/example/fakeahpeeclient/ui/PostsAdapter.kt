@@ -13,6 +13,9 @@ import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import kotlinx.android.synthetic.main.post_holder.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PostsAdapter(
     var data: MutableList<Post>,
@@ -58,18 +61,22 @@ class PostsAdapter(
             view.title.text = title.trim()
             view.content.text = content.trim()
             view.delete_button.setOnClickListener {
-                FakeAhPeeClient.instance.deletePost(
-                    this.id,
-                    {
-                    },
-                    {
-                    }
-                )
+                CoroutineScope(Dispatchers.Main).launch {
+                    FakeAhPeeClient.instance.deletePost(
+                        id,
+                        {
+                        },
+                        {
+                        }
+                    )
+                }
                 var i = -1
                 data.forEachIndexed { index, post ->
                     if (post.id == this.id) {
                         i = index
-                        FakeAhPeeClient.instance.deletePostFromBD(post)
+                        CoroutineScope(Dispatchers.Main).launch {
+                            FakeAhPeeClient.instance.deletePostFromBD(post)
+                        }
                         return@forEachIndexed
                     }
                 }

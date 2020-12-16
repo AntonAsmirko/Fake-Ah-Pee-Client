@@ -13,6 +13,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +48,7 @@ class MainActivity : AppCompatActivity() {
                     putBoolean(FakeAhPeeClient.IS_BD_EMPTY, false)
                     apply()
                 }
-            } else FakeAhPeeClient.instance.loadAllPosts()
+            } else CoroutineScope(Dispatchers.Main).launch { FakeAhPeeClient.instance.loadAllPosts() }
         }
     }
 
@@ -55,18 +58,21 @@ class MainActivity : AppCompatActivity() {
         FakeAhPeeClient.instance.postsAdapter?.clearResources()
     }
 
-    private fun fetchPosts(swipeRefreshLayout: SwipeRefreshLayout? = null) {
-        FakeAhPeeClient.instance.fetchPosts(
-            {
-                FakeAhPeeClient.instance.postsAdapter?.data?.addAll(it)
-                FakeAhPeeClient.instance.postsAdapter?.notifyDataSetChanged()
+    private fun fetchPosts(swipeRefreshLayout: SwipeRefreshLayout? = null) =
+        CoroutineScope(Dispatchers.Main).launch {
+            FakeAhPeeClient.instance.fetchPosts(
+                {
+                    FakeAhPeeClient.instance.postsAdapter?.data?.addAll(it)
+                    FakeAhPeeClient.instance.postsAdapter?.notifyDataSetChanged()
 //                if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
-                FakeAhPeeClient.instance.persistAllPosts(it)
-            },
-            {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        FakeAhPeeClient.instance.persistAllPosts(it)
+                    }
+                },
+                {
 //                if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
-            })
-    }
+                })
+        }
 
     private fun initRecycler() {
         if (FakeAhPeeClient.instance.postsAdapter == null)

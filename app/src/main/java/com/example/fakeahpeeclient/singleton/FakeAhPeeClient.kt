@@ -10,8 +10,10 @@ import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.storage.AppDatabase
 import com.example.fakeahpeeclient.storage.PostDAO
 import com.example.fakeahpeeclient.ui.PostsAdapter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.*
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -50,59 +52,53 @@ class FakeAhPeeClient : Application() {
         postDAO = db.postDAO()
     }
 
-    fun fetchPosts(
+    suspend fun fetchPosts(
         success: (response: List<Post>) -> Unit,
         failure: ((Throwable) -> Unit)
-    ) {
+    ) = withContext(Dispatchers.IO) {
         postNetwork.getPosts().enqueue(commonCallback<List<Post>>(success, failure))
     }
 
-    fun loadPosts() {
-        GlobalScope.launch {
-            val result = postDAO.getAll()
-            postsAdapter?.data?.addAll(result)
-        }
+    suspend fun loadPosts() = withContext(Dispatchers.IO) {
+        val result = postDAO.getAll()
+        postsAdapter?.data?.addAll(result)
     }
 
-    fun deletePost(
+    suspend fun deletePost(
         id: Int,
         success: (response: ResponseBody) -> Unit,
         failure: (Throwable) -> Unit
-    ) {
+    ) = withContext(Dispatchers.IO) {
         postNetwork.deletePost(id).enqueue(commonCallback<ResponseBody>(success, failure))
     }
 
-    fun deletePostFromBD(post: Post){
+    suspend fun deletePostFromBD(post: Post) = withContext(Dispatchers.IO) {
         GlobalScope.launch {
             postDAO.deletePost(post)
         }
     }
 
-    fun clearBD(){
-        GlobalScope.launch {
-            postDAO.deleteAll()
-        }
+    suspend fun clearBD() = withContext(Dispatchers.IO) {
+        postDAO.deleteAll()
     }
 
-    fun postPost(
+    suspend fun postPost(
         post: Post,
         success: (post: Post) -> Unit,
         failure: ((Throwable) -> Unit)
-    ) {
-        GlobalScope.launch { postDAO.insertAll(post) }
+    ) = withContext(Dispatchers.IO) {
+        postDAO.insertAll(post)
         postNetwork.postPost(post).enqueue(commonCallback<Post>(success, failure))
     }
 
-    fun persistAllPosts(posts: List<Post>) {
-        GlobalScope.launch { postDAO.insertAll(*posts.toTypedArray()) }
+    suspend fun persistAllPosts(posts: List<Post>) = withContext(Dispatchers.IO) {
+        postDAO.insertAll(*posts.toTypedArray())
     }
 
-    fun loadAllPosts(){
-        GlobalScope.launch {
-            postsAdapter?.apply {
-                data.addAll(postDAO.getAll())
-                notifyDataSetChanged()
-            }
+    suspend fun loadAllPosts() = withContext(Dispatchers.IO) {
+        postsAdapter?.data?.addAll(postDAO.getAll())
+        withContext(Dispatchers.Main){
+            postsAdapter?.notifyDataSetChanged()
         }
     }
 
