@@ -29,7 +29,7 @@
         android:layout_height="match_parent"
         app:layout_behavior=".ui.behaviors.SwipeRefreshLayoutBehavior">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.example.fakeahpeeclient.views.PeacefulRecycler
             android:id="@+id/recycler_posts"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

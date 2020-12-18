@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
@@ -93,6 +95,19 @@ class MainActivity : AppCompatActivity() {
             FakeAhPeeClient.instance.postsAdapter = PostsAdapter(mutableListOf())
         recycler_posts.adapter = FakeAhPeeClient.instance.postsAdapter
         recycler_posts.layoutManager = LinearLayoutManager(this)
+        recycler_posts.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener{
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                return false
+            }
+
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+
+            }
+
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
