@@ -15,7 +15,7 @@
             app:layout_constraintWidth_percent="1"
             android:layout_marginEnd="0dp">
             <CustomAttribute app:attributeName="cardBackgroundColor"
-                app:customColorValue="@color/gray"/>
+                app:customColorValue="@color/secondaryLightColor"/>
         </Constraint>
         <Constraint
             android:id="@+id/archive_button"
@@ -133,7 +133,7 @@
             app:layout_constraintWidth_percent="1"
             android:layout_marginEnd="200dp">
             <CustomAttribute app:attributeName="cardBackgroundColor"
-                app:customColorValue="@color/red"/>
+                app:customColorValue="@color/secondaryColor"/>
         </Constraint>
         <Constraint
             android:id="@+id/delete_button"
@@ -174,7 +174,7 @@
             app:layout_constraintWidth_percent="1"
             android:layout_marginEnd="100dp">
             <CustomAttribute app:attributeName="cardBackgroundColor"
-                app:customColorValue="@color/purple_500"/>
+                app:customColorValue="@color/secondaryLightColor"/>
         </Constraint>
         <Constraint
             android:id="@+id/delete_button"

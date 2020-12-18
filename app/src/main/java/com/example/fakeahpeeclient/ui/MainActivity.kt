@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -30,9 +31,22 @@ class MainActivity : AppCompatActivity() {
         initRecycler()
         Log.i("YO", "Activity was created")
         toolbar.setOnMenuItemClickListener {
-            val i = Intent(this, CreatePostActivity::class.java)
-            startActivityForResult(i, MAKE_POST_REQUEST)
-            FakeAhPeeClient.instance.postsAdapter?.notifyDataSetChanged()
+            when (it.itemId) {
+                R.id.add_post -> {
+                    val i = Intent(this, CreatePostActivity::class.java)
+                    startActivityForResult(i, MAKE_POST_REQUEST)
+                    FakeAhPeeClient.instance.postsAdapter?.notifyDataSetChanged()
+                }
+                R.id.switch_night_mode -> {
+                    AppCompatDelegate.setDefaultNightMode(
+                        if (FakeAhPeeClient.instance.isCurLightTheme)
+                            AppCompatDelegate.MODE_NIGHT_YES
+                        else AppCompatDelegate.MODE_NIGHT_NO
+                    )
+                    FakeAhPeeClient.instance.isCurLightTheme =
+                        !FakeAhPeeClient.instance.isCurLightTheme
+                }
+            }
             return@setOnMenuItemClickListener true
         }
         swipe_refresh_layout.setOnRefreshListener {
@@ -64,13 +78,13 @@ class MainActivity : AppCompatActivity() {
                 {
                     FakeAhPeeClient.instance.postsAdapter?.data?.addAll(it)
                     FakeAhPeeClient.instance.postsAdapter?.notifyDataSetChanged()
-                if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
+                    if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
                     CoroutineScope(Dispatchers.IO).launch {
                         FakeAhPeeClient.instance.persistAllPosts(it)
                     }
                 },
                 {
-                if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
+                    if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
                 })
         }
 

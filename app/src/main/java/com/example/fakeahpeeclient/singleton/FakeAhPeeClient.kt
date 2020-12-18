@@ -29,6 +29,7 @@ class FakeAhPeeClient : Application() {
     private lateinit var postDAO: PostDAO
     var sharedPref: SharedPreferences? = null
     var isBDEmpty = true
+    var isCurLightTheme = true
 
     override fun onCreate() {
         super.onCreate()
