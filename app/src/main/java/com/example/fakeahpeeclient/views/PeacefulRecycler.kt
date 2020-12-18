@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 class PeacefulRecycler(val c: Context, val attrs: AttributeSet?) : RecyclerView(c, attrs) {
     override fun onInterceptTouchEvent(e: MotionEvent?): Boolean {
         super.onInterceptTouchEvent(e)
+        super.onTouchEvent(e)
         return false
     }
 }
