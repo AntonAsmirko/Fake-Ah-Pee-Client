@@ -95,19 +95,6 @@ class MainActivity : AppCompatActivity() {
             FakeAhPeeClient.instance.postsAdapter = PostsAdapter(mutableListOf())
         recycler_posts.adapter = FakeAhPeeClient.instance.postsAdapter
         recycler_posts.layoutManager = LinearLayoutManager(this)
-        recycler_posts.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener{
-            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                return false
-            }
-
-            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-
-            }
-
-            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-
-            }
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
