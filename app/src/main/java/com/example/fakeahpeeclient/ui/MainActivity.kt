@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecycler() {
         if (FakeAhPeeClient.instance.postsAdapter == null)
-            FakeAhPeeClient.instance.postsAdapter = PostsAdapter(mutableListOf())
+            FakeAhPeeClient.instance.postsAdapter = PostsAdapter(mutableListOf(), this)
         recycler_posts.adapter = FakeAhPeeClient.instance.postsAdapter
         recycler_posts.layoutManager = LinearLayoutManager(this)
     }

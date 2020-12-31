@@ -2,15 +2,19 @@ package com.example.fakeahpeeclient.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import android.widget.ProgressBar
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
@@ -21,6 +25,7 @@ import kotlinx.coroutines.launch
 
 class PostsAdapter(
     var data: MutableList<Post>,
+    val context: Context
 ) :
     RecyclerView.Adapter<PostsAdapter.PostHolder>() {
 
@@ -54,6 +59,29 @@ class PostsAdapter(
         lateinit var content: String
         var id = -1
         var userId = -1
+
+        init {
+            val animationBottomForward =
+                AnimatedVectorDrawableCompat.create(context, R.drawable.bottom_right_liquid_forward)
+            val animationBottomReverse =
+                AnimatedVectorDrawableCompat.create(context, R.drawable.bottom_right_liquid_reverce)
+            animationBottomReverse!!.registerAnimationCallback(object :
+                Animatable2Compat.AnimationCallback() {
+                override fun onAnimationEnd(drawable: Drawable) {
+                    animationBottomForward!!.start()
+                    view.bottom_liquid.setImageDrawable(animationBottomForward)
+                }
+            })
+            animationBottomForward!!.registerAnimationCallback(object :
+                Animatable2Compat.AnimationCallback() {
+                override fun onAnimationEnd(drawable: Drawable) {
+                    animationBottomReverse.start()
+                    view.bottom_liquid.setImageDrawable(animationBottomReverse)
+                }
+            })
+            animationBottomForward.start()
+            view.bottom_liquid.setImageDrawable(animationBottomForward)
+        }
 
         @SuppressLint("ClickableViewAccessibility")
         fun fillView(title: String, content: String, id: Int, userId: Int) {
