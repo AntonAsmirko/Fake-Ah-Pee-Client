@@ -114,7 +114,8 @@ class PostsAdapter(
                     }
                     view.motion_post_holder.transitionToState(R.id.start)
                     data.removeAt(i)
-                    this@PostsAdapter.notifyDataSetChanged()
+                    this@PostsAdapter.notifyItemRemoved(i)
+                    this@PostsAdapter.notifyItemRangeChanged(i, data.size)
                 }
                 return@setOnTouchListener false
             }
