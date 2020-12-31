@@ -28,6 +28,16 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone">
+            <include
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/recycler_post_card" />
+        </androidx.cardview.widget.CardView>
+
         <com.example.fakeahpeeclient.views.PeacefulRecycler
             android:id="@+id/recycler_posts"
             android:layout_width="match_parent"

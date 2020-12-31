@@ -7,11 +7,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
-import android.widget.ProgressBar
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
@@ -22,6 +18,7 @@ import kotlinx.android.synthetic.main.post_holder.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.recycler_post_card.view.*
 
 class PostsAdapter(
     var data: MutableList<Post>,
