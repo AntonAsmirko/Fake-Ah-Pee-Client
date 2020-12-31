@@ -51,11 +51,11 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnMenuItemClickListener true
         }
-        swipe_refresh_layout.setOnRefreshListener {
-            FakeAhPeeClient.instance.postsAdapter?.clear()
-            CoroutineScope(Dispatchers.Main).launch { FakeAhPeeClient.instance.clearBD() }
-            fetchPosts(swipe_refresh_layout)
-        }
+//        swipe_refresh_layout.setOnRefreshListener {
+//            FakeAhPeeClient.instance.postsAdapter?.clear()
+//            CoroutineScope(Dispatchers.Main).launch { FakeAhPeeClient.instance.clearBD() }
+//            fetchPosts(swipe_refresh_layout)
+//        }
         if (FakeAhPeeClient.instance.postsAdapter?.data?.isEmpty() ?: false) {
             if (FakeAhPeeClient.instance.isBDEmpty) {
                 fetchPosts()
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        swipe_refresh_layout.isRefreshing = false
+        //swipe_refresh_layout.isRefreshing = false
         FakeAhPeeClient.instance.postsAdapter?.clearResources()
     }
 
@@ -80,13 +80,13 @@ class MainActivity : AppCompatActivity() {
                 {
                     FakeAhPeeClient.instance.postsAdapter?.data?.addAll(it)
                     FakeAhPeeClient.instance.postsAdapter?.notifyDataSetChanged()
-                    if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
+                    //if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
                     CoroutineScope(Dispatchers.IO).launch {
                         FakeAhPeeClient.instance.persistAllPosts(it)
                     }
                 },
                 {
-                    if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
+                    //if (swipeRefreshLayout != null) swipeRefreshLayout.isRefreshing = false
                 })
         }
 
