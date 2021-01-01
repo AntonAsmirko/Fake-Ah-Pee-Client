@@ -22,42 +22,46 @@ import kotlinx.android.synthetic.main.recycler_post_card.view.*
 
 class PostsAdapter(
     var data: MutableList<Post>,
-    val context: Context
+    val context: Context,
+    private val onItemClickListener: OnItemClickListener
 ) :
     RecyclerView.Adapter<PostsAdapter.PostHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostHolder {
         return PostHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.post_holder, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.post_holder, parent, false),
+            onItemClickListener
         )
     }
 
     override fun onBindViewHolder(holder: PostHolder, position: Int) {
-        val post = data[position]
-        holder.fillView(post.title, post.body, post.id, post.userId)
+        holder.fillView(data[position])
         holder.view.animation =
             AnimationUtils.loadAnimation(holder.itemView.context, R.anim.anim_recycler_item)
     }
 
-    override fun getItemCount(): Int {
-        return data.size
-    }
+    override fun getItemCount(): Int = data.size
 
     fun clear() {
         data.clear()
         notifyDataSetChanged()
     }
 
-    fun clearResources() {
-    }
-
-    inner class PostHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    inner class PostHolder(val view: View, itemClickListener: OnItemClickListener) :
+        RecyclerView.ViewHolder(view) {
         lateinit var title: String
         lateinit var content: String
         var id = -1
         var userId = -1
+        lateinit var post: Post
 
         init {
+
+            view.setOnClickListener{
+                itemClickListener.onItemClick(view, layoutPosition, post)
+            }
+
             val animationBottomForward =
                 AnimatedVectorDrawableCompat.create(context, R.drawable.bottom_right_liquid_forward)
             val animationBottomReverse =
@@ -81,42 +85,50 @@ class PostsAdapter(
         }
 
         @SuppressLint("ClickableViewAccessibility")
-        fun fillView(title: String, content: String, id: Int, userId: Int) {
-            this.title = title
-            this.content = content
-            this.id = id
-            this.userId = userId
+        fun fillView(post: Post) {
+            this.title = post.title
+            this.content = post.body
+            this.id = post.id
+            this.userId = post.userId
+            this.post = post
             view.title.text = title.trim()
             view.content.text = content.trim()
-            view.delete_button.setOnTouchListener { v, event ->
-                if (event.action == MotionEvent.ACTION_UP && view.motion_post_holder.currentState == R.id.right_card_off_screen) {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        FakeAhPeeClient.instance.deletePost(
-                            id,
-                            {
-                            },
-                            {
-                            }
-                        )
-                    }
-                    var i = -1
-                    data.forEachIndexed { index, post ->
-                        if (post.id == id) {
-                            i = index
-                            CoroutineScope(Dispatchers.Main).launch {
-                                FakeAhPeeClient.instance.deletePostFromBD(post)
-                            }
-                            return@forEachIndexed
-                        }
-                    }
-                    view.motion_post_holder.transitionToState(R.id.start)
-                    data.removeAt(i)
-                    this@PostsAdapter.notifyItemRemoved(i)
-                    this@PostsAdapter.notifyItemRangeChanged(i, data.size)
-                }
-                return@setOnTouchListener false
-            }
+//            view.delete_button.setOnTouchListener { v, event ->
+//                if (event.action == MotionEvent.ACTION_UP && view.post_holder.currentState == R.id.right_card_off_screen) {
+//                    CoroutineScope(Dispatchers.Main).launch {
+//                        FakeAhPeeClient.instance.deletePost(
+//                            id,
+//                            {
+//                            },
+//                            {
+//                            }
+//                        )
+//                    }
+//                    var i = -1
+//                    data.forEachIndexed { index, post ->
+//                        if (post.id == id) {
+//                            i = index
+//                            CoroutineScope(Dispatchers.Main).launch {
+//                                FakeAhPeeClient.instance.deletePostFromBD(post)
+//                            }
+//                            return@forEachIndexed
+//                        }
+//                    }
+//                    view.post_holder.transitionToState(R.id.start)
+//                    data.removeAt(i)
+//                    this@PostsAdapter.notifyItemRemoved(i)
+//                    this@PostsAdapter.notifyItemRangeChanged(i, data.size)
+//                }
+//                return@setOnTouchListener false
+//            }
         }
     }
 
+    interface OnItemClickListener {
+        fun onItemClick(
+            view: View,
+            position: Int,
+            data: Post
+        )
+    }
 }

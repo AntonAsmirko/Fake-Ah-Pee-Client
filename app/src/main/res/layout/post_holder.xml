@@ -1,50 +1,65 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:id="@+id/post_holder"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_margin="5dp"-->
+<!--    app:layoutDescription="@xml/post_holder_scene">-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/delete_button"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="@drawable/rounded_corners_for_button"-->
+<!--        android:padding="5dp"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/ic_baseline_delete_24" />-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/like_button"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="@drawable/rounded_top_corners_pink"-->
+<!--        android:padding="5dp"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/ic_baseline_favorite_border_24" />-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/archive_button"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:background="@drawable/rounded_corners_archive"-->
+<!--        android:padding="5dp"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/ic_baseline_archive_24" />-->
+
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/post_card"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:cardCornerRadius="20dp"-->
+<!--        app:elevation="5dp">-->
+
+<!--        <include-->
+<!--            layout="@layout/recycler_post_card"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content" />-->
+<!--    </androidx.cardview.widget.CardView>-->
+<!--</androidx.constraintlayout.motion.widget.MotionLayout>-->
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/motion_post_holder"
-    android:layout_width="match_parent"
+    android:id="@+id/post_card"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    app:layoutDescription="@xml/post_holder_scene">
+    app:cardCornerRadius="20dp"
+    app:elevation="5dp">
 
-    <ImageButton
-        android:id="@+id/delete_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/rounded_corners_for_button"
-        android:padding="5dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_baseline_delete_24" />
-
-    <ImageButton
-        android:id="@+id/like_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/rounded_top_corners_pink"
-        android:padding="5dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_baseline_favorite_border_24" />
-
-    <ImageButton
-        android:id="@+id/archive_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/rounded_corners_archive"
-        android:padding="5dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_baseline_archive_24" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/post_card"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
-        app:elevation="5dp">
-        <include
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/recycler_post_card" />
-    </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.motion.widget.MotionLayout>
+    <include
+        layout="@layout/recycler_post_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</androidx.cardview.widget.CardView>
