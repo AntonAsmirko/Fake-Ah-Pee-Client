@@ -12,7 +12,7 @@ import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.model.Post
-import kotlinx.android.synthetic.main.recycler_post_card.view.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 class PostsAdapter(
     var data: MutableList<Post>,

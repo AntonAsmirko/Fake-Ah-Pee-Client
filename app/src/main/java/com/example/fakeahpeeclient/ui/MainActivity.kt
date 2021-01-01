@@ -18,7 +18,7 @@ import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.recycler_post_card.view.*
+import kotlinx.android.synthetic.main.post_holder.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -142,6 +142,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         )
 
         val setEnd = motion.getConstraintSet(R.id.end)
+        setEnd.clear(R.id.post_holder)
         setEnd.setVisibility(R.id.post_holder, ConstraintSet.VISIBLE)
         setEnd.constrainWidth(R.id.post_holder, postCard.width)
         setEnd.constrainHeight(R.id.post_holder, postCard.height)
@@ -162,7 +163,6 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                     ConstraintSet.BOTTOM,
                     motion.bottom - rect.bottom
                 )
-
                 setEnd.connect(
                     R.id.post_holder,
                     ConstraintSet.BOTTOM,
@@ -179,7 +179,6 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                     ConstraintSet.TOP,
                     rect.top
                 )
-
                 setEnd.connect(
                     R.id.post_holder,
                     ConstraintSet.TOP,
@@ -194,6 +193,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         motion.post_holder.visibility = View.VISIBLE
         motion.apply {
             updateState(R.id.start, setStart)
+            updateState(R.id.end, setEnd)
             setTransition(R.id.start, R.id.end)
             setTransitionListener(object : MotionLayout.TransitionListener {
                 override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
