@@ -18,10 +18,12 @@ import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.post_holder.view.*
+import kotlinx.android.synthetic.main.activity_main.motion
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.example.fakeahpeeclient.convertDpToPixel
 
 class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
 
@@ -144,14 +146,14 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         val setEnd = motion.getConstraintSet(R.id.end)
         setEnd.clear(R.id.post_holder)
         setEnd.setVisibility(R.id.post_holder, ConstraintSet.VISIBLE)
-        setEnd.constrainWidth(R.id.post_holder, postCard.width)
-        setEnd.constrainHeight(R.id.post_holder, postCard.height)
+        setEnd.constrainWidth(R.id.post_holder, postCard.width + convertDpToPixel(14f, this).toInt())
+        setEnd.constrainHeight(R.id.post_holder, postCard.height + convertDpToPixel(10f, this).toInt())
         setEnd.connect(
             R.id.post_holder,
             ConstraintSet.START,
             ConstraintSet.PARENT_ID,
-            ConstraintSet.END,
-            rect.left
+            ConstraintSet.START,
+            rect.left - convertDpToPixel(7f, this).toInt()
         )
 
         when (clipType) {
@@ -168,7 +170,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                     ConstraintSet.BOTTOM,
                     ConstraintSet.PARENT_ID,
                     ConstraintSet.BOTTOM,
-                    motion.bottom - rect.bottom
+                    motion.bottom - rect.bottom + convertDpToPixel(5f, this).toInt()
                 )
             }
             else -> {
@@ -184,7 +186,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                     ConstraintSet.TOP,
                     ConstraintSet.PARENT_ID,
                     ConstraintSet.TOP,
-                    rect.top
+                    rect.top - convertDpToPixel(5f, this).toInt()
                 )
             }
         }
