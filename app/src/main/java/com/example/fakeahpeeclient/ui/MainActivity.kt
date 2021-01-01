@@ -9,7 +9,7 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.AppCompatImageView
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
 
     override fun onItemClick(view: View, position: Int, data: Post) {
         val viewGroup = view as? ViewGroup
-        val postCard = viewGroup?.run { findViewById<AppCompatImageView>(R.id.post_card) } ?: return
+        val postCard = viewGroup?.run { findViewById<CardView>(R.id.post_card) } ?: return
 
         motion.post_holder.title.text = data.title
         motion.post_holder.content.text = data.body
@@ -129,38 +129,71 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         motion.offsetDescendantRectToMyCoords(postCard, rect)
         Log.d(TAG, "localVisibleRect in parent coord system: $rect")
 
-        val set = motion.getConstraintSet(R.id.start)
-        set.clear(R.id.post_holder)
-        set.constrainWidth(R.id.post_holder, postCard.width)
-        set.constrainHeight(R.id.post_holder, postCard.height)
-        set.connect(
+        val setStart = motion.getConstraintSet(R.id.start)
+        setStart.clear(R.id.post_holder)
+        setStart.constrainWidth(R.id.post_holder, postCard.width)
+        setStart.constrainHeight(R.id.post_holder, postCard.height)
+        setStart.connect(
             R.id.post_holder,
             ConstraintSet.START,
             ConstraintSet.PARENT_ID,
             ConstraintSet.START,
             rect.left
         )
+
+        val setEnd = motion.getConstraintSet(R.id.end)
+        setEnd.setVisibility(R.id.post_holder, ConstraintSet.VISIBLE)
+        setEnd.constrainWidth(R.id.post_holder, postCard.width)
+        setEnd.constrainHeight(R.id.post_holder, postCard.height)
+        setEnd.connect(
+            R.id.post_holder,
+            ConstraintSet.START,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.END,
+            rect.left
+        )
+
         when (clipType) {
-            CLIP_TOP -> set.connect(
-                R.id.post_holder,
-                ConstraintSet.BOTTOM,
-                ConstraintSet.PARENT_ID,
-                ConstraintSet.BOTTOM,
-                motion.bottom - rect.bottom
-            )
-            else -> set.connect(
-                R.id.post_holder,
-                ConstraintSet.TOP,
-                ConstraintSet.PARENT_ID,
-                ConstraintSet.TOP,
-                rect.top
-            )
+            CLIP_TOP -> {
+                setStart.connect(
+                    R.id.post_holder,
+                    ConstraintSet.BOTTOM,
+                    ConstraintSet.PARENT_ID,
+                    ConstraintSet.BOTTOM,
+                    motion.bottom - rect.bottom
+                )
+
+                setEnd.connect(
+                    R.id.post_holder,
+                    ConstraintSet.BOTTOM,
+                    ConstraintSet.PARENT_ID,
+                    ConstraintSet.BOTTOM,
+                    motion.bottom - rect.bottom
+                )
+            }
+            else -> {
+                setStart.connect(
+                    R.id.post_holder,
+                    ConstraintSet.TOP,
+                    ConstraintSet.PARENT_ID,
+                    ConstraintSet.TOP,
+                    rect.top
+                )
+
+                setEnd.connect(
+                    R.id.post_holder,
+                    ConstraintSet.TOP,
+                    ConstraintSet.PARENT_ID,
+                    ConstraintSet.TOP,
+                    rect.top
+                )
+            }
         }
 
         postCard.alpha = 0.0f
         motion.post_holder.visibility = View.VISIBLE
         motion.apply {
-            updateState(R.id.start, set)
+            updateState(R.id.start, setStart)
             setTransition(R.id.start, R.id.end)
             setTransitionListener(object : MotionLayout.TransitionListener {
                 override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
@@ -193,4 +226,5 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
             transitionToEnd()
         }
     }
+
 }

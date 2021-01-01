@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -13,11 +12,6 @@ import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.model.Post
-import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
-import kotlinx.android.synthetic.main.post_holder.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.android.synthetic.main.recycler_post_card.view.*
 
 class PostsAdapter(

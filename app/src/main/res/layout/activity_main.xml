@@ -29,7 +29,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layoutDescription="@xml/activity_main_scene">
 
-        <com.example.fakeahpeeclient.views.PeacefulRecycler
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_posts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
