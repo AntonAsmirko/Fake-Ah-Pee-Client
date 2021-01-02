@@ -7,21 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.model.Post
 import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.activity_main.view.bottom_liquid
+import kotlinx.android.synthetic.main.activity_main.view.content
+import kotlinx.android.synthetic.main.activity_main.view.title
+import kotlinx.android.synthetic.main.post_holder.view.*
 
 class PostsAdapter(
     var data: MutableList<Post>,
     val context: Context,
-    private val onItemClickListener: OnItemClickListener
+    private val onItemClickListener: OnItemClickListener,
+    private val decorView: View
 ) :
     RecyclerView.Adapter<PostsAdapter.PostHolder>() {
 
+    private lateinit var rootView: View
+    private lateinit var layoutManager: LinearLayoutManager
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostHolder {
+        rootView = parent
         return PostHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.post_holder, parent, false),
@@ -42,6 +52,19 @@ class PostsAdapter(
         notifyDataSetChanged()
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        layoutManager = recyclerView.layoutManager as LinearLayoutManager
+    }
+
+    fun blurRecycler() {
+        val firstVisible = layoutManager.findFirstVisibleItemPosition()
+        if (firstVisible > -1) {
+            val post = layoutManager.findViewByPosition(firstVisible)
+            val windowBackground = decorView.background
+        }
+    }
+
     inner class PostHolder(val view: View, itemClickListener: OnItemClickListener) :
         RecyclerView.ViewHolder(view) {
         lateinit var title: String
@@ -52,7 +75,7 @@ class PostsAdapter(
 
         init {
 
-            view.setOnClickListener{
+            view.setOnClickListener {
                 itemClickListener.onItemClick(view, layoutPosition, post)
             }
 

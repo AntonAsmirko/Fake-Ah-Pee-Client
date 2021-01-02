@@ -1,29 +1,30 @@
 package com.example.fakeahpeeclient.ui
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Rect
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.fakeahpeeclient.R
+import com.example.fakeahpeeclient.convertDpToPixel
 import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.motion
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.example.fakeahpeeclient.convertDpToPixel
 
 class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
 
@@ -102,9 +103,10 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
 
     private fun initRecycler() {
         if (FakeAhPeeClient.instance.postsAdapter == null)
-            FakeAhPeeClient.instance.postsAdapter = PostsAdapter(mutableListOf(), this, this)
-        recycler_posts.adapter = FakeAhPeeClient.instance.postsAdapter
+            FakeAhPeeClient.instance.postsAdapter =
+                PostsAdapter(mutableListOf(), this, this, window.decorView)
         recycler_posts.layoutManager = LinearLayoutManager(this)
+        recycler_posts.adapter = FakeAhPeeClient.instance.postsAdapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -146,8 +148,14 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         val setEnd = motion.getConstraintSet(R.id.end)
         setEnd.clear(R.id.post_holder)
         setEnd.setVisibility(R.id.post_holder, ConstraintSet.VISIBLE)
-        setEnd.constrainWidth(R.id.post_holder, postCard.width + convertDpToPixel(14f, this).toInt())
-        setEnd.constrainHeight(R.id.post_holder, postCard.height + convertDpToPixel(10f, this).toInt())
+        setEnd.constrainWidth(
+            R.id.post_holder,
+            postCard.width + convertDpToPixel(14f, this).toInt()
+        )
+        setEnd.constrainHeight(
+            R.id.post_holder,
+            postCard.height + convertDpToPixel(10f, this).toInt()
+        )
         setEnd.connect(
             R.id.post_holder,
             ConstraintSet.START,
@@ -190,7 +198,17 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                 )
             }
         }
-
+        //FakeAhPeeClient.instance.postsAdapter!!.blurRecycler()
+//        realtime_blur_view.setBlurRadius(1f)
+//        realtime_blur_view.setOverlayColor(
+//            ResourcesCompat.getColor(
+//                resources,
+//                R.color.grayTrans,
+//                null
+//            )
+//        )
+        blur.setupWith(frame_for_blur)
+            .setBlurRadius(90f)
         postCard.alpha = 0.0f
         motion.post_holder.visibility = View.VISIBLE
         motion.apply {
