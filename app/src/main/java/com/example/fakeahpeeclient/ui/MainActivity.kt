@@ -207,8 +207,9 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
 //                null
 //            )
 //        )
-        blur.setupWith(frame_for_blur)
-            .setBlurRadius(90f)
+        blur.setupWith(blur)
+            .setBlurRadius(50f).setBlurAutoUpdate(true)
+            .setOverlayColor(ResourcesCompat.getColor(resources, R.color.grayTrans, null))
         postCard.alpha = 0.0f
         motion.post_holder.visibility = View.VISIBLE
         motion.apply {
