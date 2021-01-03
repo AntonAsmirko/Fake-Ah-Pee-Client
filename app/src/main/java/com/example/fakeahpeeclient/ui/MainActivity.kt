@@ -1,7 +1,6 @@
 package com.example.fakeahpeeclient.ui
 
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +19,7 @@ import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.convertDpToPixel
 import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
+import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -78,11 +78,6 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                 }
             } else CoroutineScope(Dispatchers.Main).launch { FakeAhPeeClient.instance.loadAllPosts() }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        //swipe_refresh_layout.isRefreshing = false
     }
 
     private fun fetchPosts(swipeRefreshLayout: SwipeRefreshLayout? = null) =
@@ -207,9 +202,15 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
 //                null
 //            )
 //        )
-        blur.setupWith(blur)
-            .setBlurRadius(50f).setBlurAutoUpdate(true)
-            .setOverlayColor(ResourcesCompat.getColor(resources, R.color.grayTrans, null))
+
+        //set background, if your root layout doesn't have one
+        val windowBackground = motion.background
+        blur.setupWith(motion)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAutoUpdate(true)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(25f)
+            .setOverlayColor(ResourcesCompat.getColor(resources, R.color.colorOverlay, null))
         postCard.alpha = 0.0f
         motion.post_holder.visibility = View.VISIBLE
         motion.apply {

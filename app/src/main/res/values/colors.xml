@@ -9,4 +9,5 @@
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
     <color name="grayTrans">#B94C4C4C</color>
+    <color name="colorOverlay">#78ffffff</color>
 </resources>
