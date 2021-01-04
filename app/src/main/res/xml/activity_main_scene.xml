@@ -5,9 +5,9 @@
     <ConstraintSet android:id="@+id/start">
         <Constraint
             android:id="@+id/post_holder"
-            android:elevation="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:elevation="30dp"
             android:visibility="gone" />
     </ConstraintSet>
 
@@ -344,6 +344,11 @@
             app:layout_constraintStart_toEndOf="@id/post_holder"
             app:layout_constraintTop_toTopOf="parent" />
     </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@+id/start" />
+
     <Transition
         app:constraintSetEnd="@+id/like_button_main_trash_down"
         app:constraintSetStart="@+id/right_card_visible">
@@ -494,11 +499,6 @@
             app:touchAnchorId="@id/post_holder"
             app:touchAnchorSide="right" />
     </Transition>
-
-
-    <Transition
-        app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start" />
 
     <StateSet app:defaultState="@id/start" />
 </MotionScene>

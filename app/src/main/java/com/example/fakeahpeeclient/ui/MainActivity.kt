@@ -101,6 +101,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         if (FakeAhPeeClient.instance.postsAdapter == null)
             FakeAhPeeClient.instance.postsAdapter =
                 PostsAdapter(mutableListOf(), this, this, window.decorView)
+        recycler_posts.addOnItemTouchListener(itemTouchInterceptor)
         recycler_posts.layoutManager = LinearLayoutManager(this)
         recycler_posts.adapter = FakeAhPeeClient.instance.postsAdapter
     }
