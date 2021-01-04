@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
             }
             return@setOnMenuItemClickListener true
         }
+        motion.transitionToState(R.id.start)
 //        swipe_refresh_layout.setOnRefreshListener {
 //            FakeAhPeeClient.instance.postsAdapter?.clear()
 //            CoroutineScope(Dispatchers.Main).launch { FakeAhPeeClient.instance.clearBD() }
@@ -140,25 +141,6 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
             rect.left
         )
 
-        val setEnd = motion.getConstraintSet(R.id.end)
-        setEnd.clear(R.id.post_holder)
-        setEnd.setVisibility(R.id.post_holder, ConstraintSet.VISIBLE)
-        setEnd.constrainWidth(
-            R.id.post_holder,
-            postCard.width + convertDpToPixel(14f, this).toInt()
-        )
-        setEnd.constrainHeight(
-            R.id.post_holder,
-            postCard.height + convertDpToPixel(10f, this).toInt()
-        )
-        setEnd.connect(
-            R.id.post_holder,
-            ConstraintSet.START,
-            ConstraintSet.PARENT_ID,
-            ConstraintSet.START,
-            rect.left - convertDpToPixel(7f, this).toInt()
-        )
-
         when (clipType) {
             CLIP_TOP -> {
                 setStart.connect(
@@ -167,13 +149,6 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                     ConstraintSet.PARENT_ID,
                     ConstraintSet.BOTTOM,
                     motion.bottom - rect.bottom
-                )
-                setEnd.connect(
-                    R.id.post_holder,
-                    ConstraintSet.BOTTOM,
-                    ConstraintSet.PARENT_ID,
-                    ConstraintSet.BOTTOM,
-                    motion.bottom - rect.bottom + convertDpToPixel(5f, this).toInt()
                 )
             }
             else -> {
@@ -184,29 +159,10 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                     ConstraintSet.TOP,
                     rect.top
                 )
-                setEnd.connect(
-                    R.id.post_holder,
-                    ConstraintSet.TOP,
-                    ConstraintSet.PARENT_ID,
-                    ConstraintSet.TOP,
-                    rect.top - convertDpToPixel(5f, this).toInt()
-                )
             }
         }
-        //FakeAhPeeClient.instance.postsAdapter!!.blurRecycler()
-//        realtime_blur_view.setBlurRadius(1f)
-//        realtime_blur_view.setOverlayColor(
-//            ResourcesCompat.getColor(
-//                resources,
-//                R.color.grayTrans,
-//                null
-//            )
-//        )
 
-        //set background, if your root layout doesn't have one
-        val windowBackground = motion.background
         blur.setupWith(motion)
-            .setFrameClearDrawable(windowBackground)
             .setBlurAutoUpdate(true)
             .setBlurAlgorithm(RenderScriptBlur(this))
             .setBlurRadius(25f)
@@ -215,7 +171,6 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         motion.post_holder.visibility = View.VISIBLE
         motion.apply {
             updateState(R.id.start, setStart)
-            updateState(R.id.end, setEnd)
             setTransition(R.id.start, R.id.end)
             setTransitionListener(object : MotionLayout.TransitionListener {
                 override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {

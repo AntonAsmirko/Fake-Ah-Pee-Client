@@ -2,21 +2,29 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ConstraintSet android:id="@+id/start"/>
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/post_holder"
+            android:elevation="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </ConstraintSet>
+
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
             android:id="@id/post_holder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
             android:layout_marginEnd="0dp"
             android:alpha="1"
             android:scaleX="0.8"
             android:scaleY="0.8"
             android:visibility="visible"
-            android:layout_marginTop="100dp"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="1">
             <CustomAttribute
                 app:attributeName="cardBackgroundColor"
@@ -34,7 +42,7 @@
             android:scaleX="0"
             android:scaleY="0"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/post_holder"/>
+            app:layout_constraintStart_toEndOf="@id/post_holder" />
 
         <Constraint
             android:id="@+id/delete_button"
@@ -157,7 +165,7 @@
 
     <Transition
         app:constraintSetEnd="@+id/right_card_visible"
-        app:constraintSetStart="@+id/start"
+        app:constraintSetStart="@+id/end"
         app:duration="500"
         app:motionInterpolator="linear">
         <OnSwipe
@@ -399,7 +407,7 @@
         <OnClick app:targetId="@+id/like_button" />
     </Transition>
     <Transition
-        app:constraintSetEnd="@+id/start"
+        app:constraintSetEnd="@+id/end"
         app:constraintSetStart="@+id/like_button_main_trash_down">
         <OnSwipe
             app:dragDirection="dragRight"
@@ -407,7 +415,7 @@
             app:touchAnchorSide="right" />
     </Transition>
     <Transition
-        app:constraintSetEnd="@+id/start"
+        app:constraintSetEnd="@+id/end"
         app:constraintSetStart="@+id/archive_button_visible">
         <OnSwipe
             app:dragDirection="dragRight"
@@ -491,4 +499,6 @@
     <Transition
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start" />
+
+    <StateSet app:defaultState="@id/start" />
 </MotionScene>
