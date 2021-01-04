@@ -28,8 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutDescription="@xml/activity_main_scene"
-        app:motionDebug="SHOW_ALL"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:motionDebug="SHOW_ALL">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_posts"
@@ -52,34 +52,6 @@
             android:visibility="gone"
             app:cardCornerRadius="20dp"
             app:elevation="30dp">
-
-            <ImageButton
-                android:id="@+id/delete_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/rounded_corners_for_button"
-                android:padding="5dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_baseline_delete_24" />
-
-            <ImageButton
-                android:id="@+id/like_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/rounded_top_corners_pink"
-                android:padding="5dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_baseline_favorite_border_24" />
-
-            <ImageButton
-                android:id="@+id/archive_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/rounded_corners_archive"
-                android:padding="5dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_baseline_archive_24" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -140,6 +112,34 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
+        <ImageButton
+            android:id="@+id/delete_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_corners_for_button"
+            android:padding="5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_baseline_delete_24" />
+
+        <ImageButton
+            android:id="@+id/like_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_top_corners_pink"
+            android:padding="5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_baseline_favorite_border_24" />
+
+        <ImageButton
+            android:id="@+id/archive_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/rounded_corners_archive"
+            android:padding="5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_baseline_archive_24" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 

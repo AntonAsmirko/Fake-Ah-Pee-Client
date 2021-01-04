@@ -15,11 +15,10 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.eightbitlab.supportrenderscriptblur.SupportRenderScriptBlur
 import com.example.fakeahpeeclient.R
-import com.example.fakeahpeeclient.convertDpToPixel
 import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
-import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -63,7 +62,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
             }
             return@setOnMenuItemClickListener true
         }
-        motion.transitionToState(R.id.start)
+        //motion.transitionToState(R.id.start)
 //        swipe_refresh_layout.setOnRefreshListener {
 //            FakeAhPeeClient.instance.postsAdapter?.clear()
 //            CoroutineScope(Dispatchers.Main).launch { FakeAhPeeClient.instance.clearBD() }
@@ -115,7 +114,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         val viewGroup = view as? ViewGroup
         val postCard = viewGroup?.run { findViewById<CardView>(R.id.post_card) } ?: return
 
-        motion.post_holder.title.text = data.title
+            motion.post_holder.title.text = data.title
         motion.post_holder.content.text = data.body
 
         val rect = Rect()
@@ -165,7 +164,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
 
         blur.setupWith(motion)
             .setBlurAutoUpdate(true)
-            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurAlgorithm(SupportRenderScriptBlur(this))
             .setBlurRadius(25f)
             .setOverlayColor(ResourcesCompat.getColor(resources, R.color.colorOverlay, null))
         postCard.alpha = 0.0f
