@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.motion.widget.MotionScene
+import androidx.constraintlayout.motion.widget.TransitionBuilder
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -113,8 +115,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
     override fun onItemClick(view: View, position: Int, data: Post) {
         val viewGroup = view as? ViewGroup
         val postCard = viewGroup?.run { findViewById<CardView>(R.id.post_card) } ?: return
-
-            motion.post_holder.title.text = data.title
+        motion.post_holder.title.text = data.title
         motion.post_holder.content.text = data.body
 
         val rect = Rect()
@@ -188,8 +189,9 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                         itemTouchInterceptor.disable()
                         postCard.alpha = 1.0f
                         motion.post_holder.alpha = 0.0f
-                    } else {
-                        setTransition(R.id.end, R.id.top_card_expanded)
+                    } else if (p1 == endState) {
+                        p0?.progress = 0f
+                        p0?.setTransition(R.id.end, R.id.top_card_expanded)
                     }
                 }
 
@@ -205,5 +207,4 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
             transitionToEnd()
         }
     }
-
 }
