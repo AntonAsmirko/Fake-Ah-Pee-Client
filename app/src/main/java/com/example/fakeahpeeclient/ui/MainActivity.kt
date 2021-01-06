@@ -188,6 +188,8 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                         itemTouchInterceptor.disable()
                         postCard.alpha = 1.0f
                         motion.post_holder.alpha = 0.0f
+                    } else {
+                        setTransition(R.id.end, R.id.top_card_expanded)
                     }
                 }
 
