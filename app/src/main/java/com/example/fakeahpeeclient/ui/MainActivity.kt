@@ -45,25 +45,25 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         setSupportActionBar(toolbar)
         initRecycler()
         Log.i("YO", "Activity was created")
-        toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.add_post -> {
-                    val i = Intent(this, CreatePostActivity::class.java)
-                    startActivityForResult(i, MAKE_POST_REQUEST)
-                    FakeAhPeeClient.instance.postsAdapter?.notifyDataSetChanged()
-                }
-                R.id.switch_night_mode -> {
-                    AppCompatDelegate.setDefaultNightMode(
-                        if (FakeAhPeeClient.instance.isCurLightTheme)
-                            AppCompatDelegate.MODE_NIGHT_YES
-                        else AppCompatDelegate.MODE_NIGHT_NO
-                    )
-                    FakeAhPeeClient.instance.isCurLightTheme =
-                        !FakeAhPeeClient.instance.isCurLightTheme
-                }
-            }
-            return@setOnMenuItemClickListener true
-        }
+//        toolbar.setOnMenuItemClickListener {
+//            when (it.itemId) {
+//                R.id.add_post -> {
+//                    val i = Intent(this, CreatePostActivity::class.java)
+//                    startActivityForResult(i, MAKE_POST_REQUEST)
+//                    FakeAhPeeClient.instance.postsAdapter?.notifyDataSetChanged()
+//                }
+//                R.id.switch_night_mode -> {
+//                    AppCompatDelegate.setDefaultNightMode(
+//                        if (FakeAhPeeClient.instance.isCurLightTheme)
+//                            AppCompatDelegate.MODE_NIGHT_YES
+//                        else AppCompatDelegate.MODE_NIGHT_NO
+//                    )
+//                    FakeAhPeeClient.instance.isCurLightTheme =
+//                        !FakeAhPeeClient.instance.isCurLightTheme
+//                }
+//            }
+//            return@setOnMenuItemClickListener true
+//        }
         //motion.transitionToState(R.id.start)
 //        swipe_refresh_layout.setOnRefreshListener {
 //            FakeAhPeeClient.instance.postsAdapter?.clear()
@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
             setTransition(R.id.start, R.id.end)
             setTransitionListener(object : MotionLayout.TransitionListener {
                 override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-                    itemTouchInterceptor.enable()
+                    //itemTouchInterceptor.enable()
                     if (p1 == startState) {
                         postCard.alpha = 0.0f
                         motion.post_holder.alpha = 1.0f
@@ -186,13 +186,18 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
 
                 override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
                     if (p1 == startState) {
-                        itemTouchInterceptor.disable()
+                        //itemTouchInterceptor.disable()
                         postCard.alpha = 1.0f
                         motion.post_holder.alpha = 0.0f
-                    } else if (p1 == endState) {
-                        p0?.progress = 0f
+                    } else if (p1 == R.id.end) {
+                        Log.i("III", "YO")
                         p0?.setTransition(R.id.end, R.id.top_card_expanded)
+                        p0?.progress = 0f
                     }
+                    Log.i(
+                        "III",
+                        "${motion.currentState} ${R.id.start} ${R.id.end} ${p0?.isInteractionEnabled}"
+                    )
                 }
 
                 override fun onTransitionTrigger(

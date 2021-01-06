@@ -102,9 +102,8 @@
         app:constraintSetEnd="@+id/top_card_expanded" >
         <OnSwipe
             app:touchAnchorId="@+id/post_holder"
-            app:dragDirection="dragDown"
-            app:touchAnchorSide="bottom" />
+            app:dragDirection="dragUp"
+            app:touchAnchorSide="middle" />
     </Transition>
 
 </MotionScene>
-
