@@ -4,13 +4,10 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.example.fakeahpeeclient.extensions.setTransitionListener
 
 
 class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
@@ -42,18 +40,6 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         //setSupportActionBar(toolbar)
         initRecycler()
         Log.i("YO", "Activity was created")
-        motion.swipeHandler = OnSwipeTouchListener(this@MainActivity, onSwipeDown = {
-            if (motion.currentState == R.id.end && motion.progress < 30f) {
-                motion.setTransition(R.id.end, R.id.top_card_expanded)
-                motion.progress = 0f
-            }
-        },
-            onSwipeLeft = {
-                if (motion.currentState == R.id.end && motion.progress < 30f) {
-                    motion.setTransition(R.id.end, R.id.right_card_visible)
-                    motion.progress = 0f
-                }
-            })
 //        toolbar.setOnMenuItemClickListener {
 //            when (it.itemId) {
 //                R.id.add_post -> {
@@ -180,35 +166,33 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         motion.post_holder.visibility = View.VISIBLE
         motion.apply {
             updateState(R.id.start, setStart)
-            setTransition(R.id.start, R.id.end)
-            setTransitionListener(object : MotionLayout.TransitionListener {
-                override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-                    motion.interceptChildren = true
-                    if (p1 == startState) {
-                        postCard.alpha = 0.0f
-                        motion.post_holder.alpha = 1.0f
-                    }
+            swipeHandler = OnSwipeTouchListener(this@MainActivity, onSwipeDown = {
+                if (motion.currentState == R.id.end && motion.progress < 30f) {
+                    motion.setTransition(R.id.end, R.id.top_card_expanded)
+                    motion.progress = 0f
                 }
-
-                override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {}
-
-                override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+            },
+                onSwipeLeft = {
+                    if (motion.currentState == R.id.end && motion.progress < 30f) {
+                        motion.setTransition(R.id.end, R.id.right_card_visible)
+                        motion.progress = 0f
+                    }
+                })
+            setTransition(R.id.start, R.id.end)
+            setTransitionListener({ p1, _ ->
+                motion.interceptChildren = true
+                if (p1 == startState) {
+                    postCard.alpha = 0.0f
+                    motion.post_holder.alpha = 1.0f
+                }
+            },
+                { p1 ->
                     if (p1 == R.id.start) {
                         motion.interceptChildren = false
                         postCard.alpha = 1.0f
                         motion.post_holder.alpha = 0.0f
                     }
-                }
-
-                override fun onTransitionTrigger(
-                    p0: MotionLayout?,
-                    p1: Int,
-                    p2: Boolean,
-                    p3: Float
-                ) {
-                }
-
-            })
+                })
             transitionToEnd()
         }
     }
