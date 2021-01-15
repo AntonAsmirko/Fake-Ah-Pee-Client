@@ -70,7 +70,7 @@ open class OnSwipeTouchListener(
     }
 
     companion object {
-        private const val SWIPE_THRESHOLD = 100
+        private const val SWIPE_THRESHOLD = 300
         private const val SWIPE_VELOCITY_THRESHOLD = 100
     }
 }

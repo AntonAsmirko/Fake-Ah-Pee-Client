@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         const val CLIP_BOTTOM = 2;
     }
 
-    private val itemTouchInterceptor = ItemTouchInterceptor()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,13 +43,13 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         initRecycler()
         Log.i("YO", "Activity was created")
         motion.swipeHandler = OnSwipeTouchListener(this@MainActivity, onSwipeDown = {
-            if (motion.currentState == R.id.end) {
+            if (motion.currentState == R.id.end && motion.progress == 1f) {
                 motion.setTransition(R.id.end, R.id.top_card_expanded)
                 motion.progress = 0f
             }
         },
             onSwipeLeft = {
-                if (motion.currentState == R.id.end) {
+                if (motion.currentState == R.id.end && motion.progress == 1f) {
                     motion.setTransition(R.id.end, R.id.right_card_visible)
                     motion.progress = 0f
                 }
@@ -113,7 +111,6 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         if (FakeAhPeeClient.instance.postsAdapter == null)
             FakeAhPeeClient.instance.postsAdapter =
                 PostsAdapter(mutableListOf(), this, this, window.decorView)
-        recycler_posts.addOnItemTouchListener(itemTouchInterceptor)
         recycler_posts.layoutManager = LinearLayoutManager(this)
         recycler_posts.adapter = FakeAhPeeClient.instance.postsAdapter
     }
@@ -186,7 +183,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
             setTransition(R.id.start, R.id.end)
             setTransitionListener(object : MotionLayout.TransitionListener {
                 override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-                    //itemTouchInterceptor.enable()
+                    motion.interceptChildren = true
                     if (p1 == startState) {
                         postCard.alpha = 0.0f
                         motion.post_holder.alpha = 1.0f
@@ -197,7 +194,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
 
                 override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
                     if (p1 == startState) {
-                        //itemTouchInterceptor.disable()
+                        motion.interceptChildren = false
                         postCard.alpha = 1.0f
                         motion.post_holder.alpha = 0.0f
                     }

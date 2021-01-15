@@ -10,8 +10,20 @@ class FlexMotionLayout(val c: Context, val attrs: AttributeSet?) : MotionLayout(
 
     lateinit var swipeHandler: OnSwipeTouchListener
 
+    var interceptChildren = false
+
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         swipeHandler.onTouch(this, ev)
         return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onInterceptTouchEvent(event: MotionEvent?): Boolean {
+        val result = if (!interceptChildren) super.onInterceptTouchEvent(event) else true
+        return if (result)
+            result
+        else {
+            onTouchEvent(event)
+            result
+        }
     }
 }
