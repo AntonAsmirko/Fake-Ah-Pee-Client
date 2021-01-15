@@ -3,23 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/start">
-        <Constraint
-            android:id="@+id/post_holder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="30dp"
-            android:visibility="gone" />
-        <Constraint
-            android:id="@+id/archive_button"
-            android:visibility="gone"/>
-
-        <Constraint
-            android:id="@+id/delete_button"
-            android:visibility="gone"/>
-
-        <Constraint
-            android:id="@+id/like_button"
-            android:visibility="gone"/>
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">

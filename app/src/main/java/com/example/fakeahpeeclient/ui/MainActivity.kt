@@ -42,6 +42,12 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         //setSupportActionBar(toolbar)
         initRecycler()
         Log.i("YO", "Activity was created")
+        blur.setupWith(motion)
+            .setBlurEnabled(false)
+            .setBlurAutoUpdate(true)
+            .setBlurAlgorithm(SupportRenderScriptBlur(this))
+            .setBlurRadius(25f)
+            .setOverlayColor(ResourcesCompat.getColor(resources, R.color.colorOverlay, null))
 //        toolbar.setOnMenuItemClickListener {
 //            when (it.itemId) {
 //                R.id.add_post -> {
@@ -167,12 +173,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                 )
             }
         }
-
-        blur.setupWith(motion)
-            .setBlurAutoUpdate(true)
-            .setBlurAlgorithm(SupportRenderScriptBlur(this))
-            .setBlurRadius(25f)
-            .setOverlayColor(ResourcesCompat.getColor(resources, R.color.colorOverlay, null))
+        blur.setBlurEnabled(true)
         postCard.alpha = 0.0f
         motion.post_holder.visibility = View.VISIBLE
         motion.apply {
@@ -205,6 +206,26 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                     }
                 })
             transitionToEnd()
+        }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        return if (!post_holder.isClicked(ev!!) && !like_button.isClicked(ev) && !delete_button.isClicked(
+                ev
+            ) && !archive_button.isClicked(ev) && motion.currentState != R.id.start
+        ) {
+            when (motion.currentState) {
+                R.id.end -> {
+                    motion.apply {
+                        setTransition(R.id.end, R.id.start)
+                        transitionToEnd()
+                    }
+                    blur.setBlurEnabled(false)
+                }
+            }
+            true
+        } else {
+            super.dispatchTouchEvent(ev)
         }
     }
 }

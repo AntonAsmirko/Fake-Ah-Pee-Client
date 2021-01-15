@@ -13,6 +13,7 @@ class FlexMotionLayout(val c: Context, val attrs: AttributeSet?) : MotionLayout(
     var interceptChildren = false
 
     val callWhileIntercepting: MutableList<(e: MotionEvent) -> Unit> = mutableListOf()
+    val callOnTouchEvent: MutableList<() -> Unit> = mutableListOf()
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (::swipeHandler.isInitialized)
@@ -29,5 +30,10 @@ class FlexMotionLayout(val c: Context, val attrs: AttributeSet?) : MotionLayout(
             onTouchEvent(event)
             result
         }
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        callOnTouchEvent.forEach { it.invoke() }
+        return super.onTouchEvent(event)
     }
 }
