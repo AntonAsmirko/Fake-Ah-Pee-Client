@@ -4,6 +4,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.eightbitlab.supportrenderscriptblur.SupportRenderScriptBlur
 import com.example.fakeahpeeclient.R
+import com.example.fakeahpeeclient.extensions.isClicked
 import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import kotlinx.android.synthetic.main.activity_main.*
@@ -74,6 +76,15 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                     apply()
                 }
             } else CoroutineScope(Dispatchers.Main).launch { FakeAhPeeClient.instance.loadAllPosts() }
+        }
+        motion.callWhileIntercepting.add {
+            if (like_button.isClicked(it)) motion.transitionToState(R.id.like_button_main_trash_down)
+        }
+        motion.callWhileIntercepting.add {
+            if (delete_button.isClicked(it)) motion.transitionToState(R.id.right_card_visible)
+        }
+        motion.callWhileIntercepting.add {
+            if (archive_button.isClicked(it)) motion.transitionToState(R.id.archive_button_visible)
         }
     }
 
