@@ -34,7 +34,6 @@ class FakeAhPeeClient : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val set: ConstraintSet = ConstraintSet()
         Log.i("YO", "Application was created")
         instance = this
 

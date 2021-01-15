@@ -9,6 +9,17 @@
             android:layout_height="wrap_content"
             android:elevation="30dp"
             android:visibility="gone" />
+        <Constraint
+            android:id="@+id/archive_button"
+            android:visibility="gone"/>
+
+        <Constraint
+            android:id="@+id/delete_button"
+            android:visibility="gone"/>
+
+        <Constraint
+            android:id="@+id/like_button"
+            android:visibility="gone"/>
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -41,7 +52,8 @@
             android:scaleX="0"
             android:scaleY="0"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/post_holder" />
+            app:layout_constraintStart_toEndOf="@id/post_holder"
+            android:visibility="gone"/>
 
         <Constraint
             android:id="@+id/delete_button"
@@ -55,7 +67,8 @@
             android:scaleY="0.5"
             app:layout_constraintBottom_toBottomOf="@id/post_holder"
             app:layout_constraintStart_toEndOf="@id/post_holder"
-            app:layout_constraintTop_toTopOf="@id/post_holder" />
+            app:layout_constraintTop_toTopOf="@id/post_holder"
+            android:visibility="gone"/>
 
         <Constraint
             android:id="@+id/like_button"
@@ -70,7 +83,8 @@
             android:scaleX="0"
             android:scaleY="0"
             app:layout_constraintStart_toEndOf="@id/post_holder"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/top_card_expanded">
@@ -105,5 +119,418 @@
             app:dragDirection="dragUp"
             app:touchAnchorSide="middle" />
     </Transition>
+
+    <ConstraintSet android:id="@+id/right_card_visible">
+        <Constraint
+            android:id="@+id/post_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:alpha="0.3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1"
+            android:layout_marginEnd="100dp">
+            <CustomAttribute app:attributeName="cardBackgroundColor"
+                app:customColorValue="#9CFF0000"/>
+        </Constraint>
+        <Constraint
+            android:id="@+id/delete_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:elevation="5dp"
+            android:scaleY="1"
+            android:scaleX="1"
+            android:alpha="1"
+            android:rotation="360"
+            app:layout_constraintTop_toTopOf="@id/post_card"
+            app:layout_constraintBottom_toBottomOf="@id/post_card"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            android:layout_marginStart="20dp"/>
+
+        <Constraint
+            android:id="@+id/archive_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:alpha="1"
+            android:elevation="5dp"
+            android:scaleY="1"
+            android:scaleX="1"
+            android:rotation="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            android:layout_marginBottom="25dp"
+            android:layout_marginStart="10dp"/>
+
+        <Constraint
+            android:id="@+id/like_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:alpha="1"
+            android:elevation="5dp"
+            android:scaleY="1"
+            android:scaleX="1"
+            android:rotation="0"
+            android:padding="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="10dp"/>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/right_card_off_screen">
+        <Constraint
+            android:id="@+id/post_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:alpha="0.1"
+            android:translationZ="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1"
+            android:layout_marginEnd="200dp">
+            <CustomAttribute app:attributeName="cardBackgroundColor"
+                app:customColorValue="@color/secondaryColor"/>
+        </Constraint>
+        <Constraint
+            android:id="@+id/delete_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:elevation="5dp"
+            android:scaleY="1.5"
+            android:scaleX="1.5"
+            android:rotation="360"
+            app:layout_constraintBottom_toBottomOf="@id/post_card"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintTop_toTopOf="@id/post_card"/>
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@+id/right_card_visible"
+        app:constraintSetStart="@+id/end"
+        app:duration="500"
+        app:motionInterpolator="linear">
+        <OnSwipe
+            app:dragDirection="dragLeft"
+            app:touchAnchorSide="end"
+            app:touchAnchorId="@id/post_card"
+            app:touchRegionId="@id/post_card"
+            app:onTouchUp="decelerateAndComplete"/>
+    </Transition>
+
+
+    <ConstraintSet android:id="@+id/archive_button_visible">
+        <Constraint
+            android:id="@+id/post_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:alpha="0.3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1"
+            android:layout_marginEnd="100dp">
+            <CustomAttribute app:attributeName="cardBackgroundColor"
+                app:customColorValue="@color/secondaryLightColor"/>
+        </Constraint>
+        <Constraint
+            android:id="@+id/delete_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:elevation="5dp"
+            android:scaleY="1"
+            android:scaleX="1"
+            android:alpha="1"
+            android:rotation="0"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="25dp"/>
+
+        <Constraint
+            android:id="@+id/archive_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:alpha="1"
+            android:elevation="5dp"
+            android:scaleY="1"
+            android:scaleX="1"
+            android:rotation="0"
+            app:layout_constraintBottom_toBottomOf="@id/post_card"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintTop_toTopOf="@id/post_card"
+            android:layout_marginStart="20dp"/>
+
+        <Constraint
+            android:id="@+id/like_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:elevation="5dp"
+            android:scaleY="1"
+            android:scaleX="1"
+            android:alpha="1"
+            android:rotation="0"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="25dp"/>
+    </ConstraintSet>
+    <Transition
+        app:constraintSetStart="@+id/right_card_visible"
+        app:constraintSetEnd="@+id/archive_button_visible" >
+        <OnClick app:targetId="@+id/archive_button"
+            app:clickAction="transitionToEnd"/>
+        <KeyFrameSet>
+            <KeyPosition
+                app:keyPositionType="pathRelative"
+                app:percentY="0.5"
+                app:percentX="0.5"
+                app:framePosition="50"
+                app:transitionEasing="accelerate"
+                app:motionTarget="@+id/like_button"/>
+            <KeyAttribute
+                app:motionTarget="@+id/like_button"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                app:framePosition="50"/>
+        </KeyFrameSet>
+    </Transition>
+    <Transition
+        app:constraintSetStart="@+id/archive_button_visible"
+        app:constraintSetEnd="@+id/right_card_visible" >
+        <OnClick app:targetId="@+id/delete_button" />
+        <KeyFrameSet>
+            <KeyPosition
+                app:keyPositionType="pathRelative"
+                app:percentY="0.5"
+                app:percentX="0.5"
+                app:framePosition="50"
+                app:transitionEasing="accelerate"
+                app:motionTarget="@+id/like_button"/>
+            <KeyAttribute
+                app:motionTarget="@+id/like_button"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                app:framePosition="50"/>
+        </KeyFrameSet>
+    </Transition>
+    <Transition
+        app:constraintSetStart="@+id/right_card_visible"
+        app:constraintSetEnd="@+id/right_card_off_screen" >
+        <OnClick app:targetId="@+id/delete_button"
+            app:clickAction="transitionToEnd"/>
+        <OnSwipe
+            app:touchAnchorId="@+id/post_card"
+            app:dragDirection="dragLeft"
+            app:touchAnchorSide="right" />
+    </Transition>
+    <ConstraintSet android:id="@+id/like_button_main_trash_down">
+        <Constraint
+            android:id="@+id/post_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:alpha="0.3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1"
+            android:layout_marginEnd="100dp">
+            <CustomAttribute app:attributeName="cardBackgroundColor"
+                app:customColorValue="#A8FF00FB"/>
+        </Constraint>
+        <Constraint
+            android:id="@+id/like_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:elevation="5dp"
+            android:scaleY="1"
+            android:scaleX="1"
+            android:alpha="1"
+            android:rotation="360"
+            app:layout_constraintTop_toTopOf="@id/post_card"
+            app:layout_constraintBottom_toBottomOf="@id/post_card"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            android:layout_marginStart="20dp"/>
+
+        <Constraint
+            android:id="@+id/delete_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:alpha="1"
+            android:elevation="5dp"
+            android:scaleY="1"
+            android:scaleX="1"
+            android:rotation="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            android:layout_marginBottom="25dp"
+            android:layout_marginStart="10dp"/>
+
+        <Constraint
+            android:id="@+id/archive_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:alpha="1"
+            android:elevation="5dp"
+            android:scaleY="1"
+            android:scaleX="1"
+            android:rotation="0"
+            android:padding="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="10dp"/>
+    </ConstraintSet>
+    <Transition
+        app:constraintSetStart="@+id/right_card_visible"
+        app:constraintSetEnd="@+id/like_button_main_trash_down" >
+        <OnClick app:targetId="@+id/like_button" />
+        <KeyFrameSet>
+            <KeyPosition
+                app:keyPositionType="pathRelative"
+                app:percentY="0.5"
+                app:percentX="0.5"
+                app:framePosition="50"
+                app:transitionEasing="accelerate"
+                app:motionTarget="@+id/archive_button"/>
+            <KeyAttribute
+                app:motionTarget="@+id/archive_button"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                app:framePosition="50"/>
+        </KeyFrameSet>
+    </Transition>
+    <Transition
+        app:constraintSetStart="@+id/like_button_main_trash_down"
+        app:constraintSetEnd="@+id/right_card_visible" >
+        <OnClick app:targetId="@+id/delete_button" />
+        <KeyFrameSet>
+            <KeyPosition
+                app:keyPositionType="pathRelative"
+                app:percentY="0.5"
+                app:percentX="0.5"
+                app:framePosition="50"
+                app:transitionEasing="accelerate"
+                app:motionTarget="@+id/archive_button"/>
+            <KeyAttribute
+                app:motionTarget="@+id/archive_button"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                app:framePosition="50"/>
+        </KeyFrameSet>
+    </Transition>
+    <Transition
+        app:constraintSetStart="@+id/like_button_main_trash_down"
+        app:constraintSetEnd="@+id/archive_button_visible" >
+        <OnClick app:targetId="@+id/archive_button" />
+        <KeyFrameSet>
+            <KeyPosition
+                app:keyPositionType="pathRelative"
+                app:percentY="0.5"
+                app:percentX="0.5"
+                app:framePosition="50"
+                app:transitionEasing="accelerate"
+                app:motionTarget="@+id/delete_button"/>
+            <KeyAttribute
+                app:motionTarget="@+id/delete_button"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                app:framePosition="50"/>
+        </KeyFrameSet>
+    </Transition>
+    <Transition
+        app:constraintSetStart="@+id/archive_button_visible"
+        app:constraintSetEnd="@+id/like_button_main_trash_down" >
+        <OnClick app:targetId="@+id/like_button" />
+    </Transition>
+    <Transition
+        app:constraintSetStart="@+id/like_button_main_trash_down"
+        app:constraintSetEnd="@+id/end" >
+        <OnSwipe
+            app:touchAnchorId="@+id/post_card"
+            app:dragDirection="dragRight"
+            app:touchAnchorSide="right" />
+    </Transition>
+    <Transition
+        app:constraintSetStart="@+id/archive_button_visible"
+        app:constraintSetEnd="@+id/end" >
+        <OnSwipe
+            app:touchAnchorId="@+id/post_card"
+            app:dragDirection="dragRight"
+            app:touchAnchorSide="right" />
+    </Transition>
+    <ConstraintSet android:id="@+id/like_off_screne">
+        <Constraint
+            android:id="@+id/post_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:alpha="0.1"
+            android:translationZ="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1"
+            android:layout_marginEnd="200dp">
+            <CustomAttribute app:attributeName="cardBackgroundColor"
+                app:customColorValue="#A8FF00FB"/>
+        </Constraint>
+        <Constraint
+            android:id="@+id/like_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:elevation="5dp"
+            android:scaleY="1.5"
+            android:scaleX="1.5"
+            android:rotation="360"
+            app:layout_constraintBottom_toBottomOf="@id/post_card"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintTop_toTopOf="@id/post_card"/>
+    </ConstraintSet>
+    <Transition
+        app:constraintSetStart="@+id/like_button_main_trash_down"
+        app:constraintSetEnd="@+id/like_off_screne" >
+        <OnSwipe
+            app:touchAnchorId="@+id/post_card"
+            app:dragDirection="dragLeft"
+            app:touchAnchorSide="right" />
+    </Transition>
+    <ConstraintSet android:id="@+id/archive_off_screen">
+        <Constraint
+            android:id="@+id/post_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:alpha="0.1"
+            android:translationZ="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="1"
+            android:layout_marginEnd="200dp">
+            <CustomAttribute app:attributeName="cardBackgroundColor"
+                app:customColorValue="#A8FF00FB"/>
+        </Constraint>
+        <Constraint
+            android:id="@+id/archive_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:elevation="5dp"
+            android:scaleY="1.5"
+            android:scaleX="1.5"
+            android:rotation="360"
+            app:layout_constraintBottom_toBottomOf="@id/post_card"
+            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintTop_toTopOf="@id/post_card"/>
+    </ConstraintSet>
+    <Transition
+        app:constraintSetStart="@+id/archive_button_visible"
+        app:constraintSetEnd="@+id/archive_off_screen" >
+        <OnSwipe
+            app:touchAnchorId="@+id/post_card"
+            app:dragDirection="dragLeft"
+            app:touchAnchorSide="right" />
+    </Transition>
+
 
 </MotionScene>

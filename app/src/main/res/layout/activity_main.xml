@@ -22,7 +22,7 @@
 <!--    </com.google.android.material.appbar.AppBarLayout>-->
 
 
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.fakeahpeeclient.views.FlexMotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/motion"
@@ -142,6 +142,6 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_baseline_archive_24" />
 
-</androidx.constraintlayout.motion.widget.MotionLayout>
+</com.example.fakeahpeeclient.views.FlexMotionLayout>
 
     <!--</androidx.coordinatorlayout.widget.CoordinatorLayout>-->

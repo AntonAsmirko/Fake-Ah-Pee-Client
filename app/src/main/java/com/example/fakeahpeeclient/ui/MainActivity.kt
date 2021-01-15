@@ -1,18 +1,16 @@
 package com.example.fakeahpeeclient.ui
 
-import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.constraintlayout.motion.widget.MotionScene
-import androidx.constraintlayout.motion.widget.TransitionBuilder
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
 
@@ -42,9 +41,21 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        //setSupportActionBar(toolbar)
         initRecycler()
         Log.i("YO", "Activity was created")
+        motion.swipeHandler = OnSwipeTouchListener(this@MainActivity, onSwipeDown = {
+            if (motion.currentState == R.id.end) {
+                motion.setTransition(R.id.end, R.id.top_card_expanded)
+                motion.progress = 0f
+            }
+        },
+            onSwipeLeft = {
+                if (motion.currentState == R.id.end) {
+                    motion.setTransition(R.id.end, R.id.right_card_visible)
+                    motion.progress = 0f
+                }
+            })
 //        toolbar.setOnMenuItemClickListener {
 //            when (it.itemId) {
 //                R.id.add_post -> {
@@ -189,15 +200,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                         //itemTouchInterceptor.disable()
                         postCard.alpha = 1.0f
                         motion.post_holder.alpha = 0.0f
-                    } else if (p1 == R.id.end) {
-                        Log.i("III", "YO")
-                        p0?.setTransition(R.id.end, R.id.top_card_expanded)
-                        p0?.progress = 0f
                     }
-                    Log.i(
-                        "III",
-                        "${motion.currentState} ${R.id.start} ${R.id.end} ${p0?.isInteractionEnabled}"
-                    )
                 }
 
                 override fun onTransitionTrigger(
