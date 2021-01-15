@@ -3,79 +3,129 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/start">
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
         <Constraint
-            android:id="@+id/post_card"
+            android:id="@id/post_holder"
             android:layout_width="0dp"
-            android:scaleX="1"
-            android:scaleY="1"
-            android:alpha="1"
-            android:layout_marginBottom="10dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="0dp"
+            android:alpha="1"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintWidth_percent="1"
-            android:layout_marginEnd="0dp">
-            <CustomAttribute app:attributeName="cardBackgroundColor"
-                app:customColorValue="@color/secondaryLightColor"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="1">
+            <CustomAttribute
+                app:attributeName="cardBackgroundColor"
+                app:customColorValue="@color/secondaryLightColor" />
         </Constraint>
         <Constraint
             android:id="@+id/archive_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
             android:alpha="0"
             android:elevation="5dp"
-            android:scaleY="0"
-            android:scaleX="0"
             android:rotation="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/post_card"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"/>
+            android:scaleX="0"
+            android:scaleY="0"
+            app:layout_constraintBottom_toBottomOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
+            android:visibility="gone"/>
 
         <Constraint
             android:id="@+id/delete_button"
             android:layout_width="64dp"
             android:layout_height="64dp"
+            android:layout_marginStart="20dp"
             android:alpha="0.5"
             android:elevation="5dp"
-            android:scaleY="0.5"
-            android:scaleX="0.5"
             android:rotation="0"
-            app:layout_constraintBottom_toBottomOf="@id/post_card"
-            app:layout_constraintStart_toEndOf="@id/post_card"
-            app:layout_constraintTop_toTopOf="@id/post_card"
-            android:layout_marginStart="20dp"/>
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            app:layout_constraintBottom_toBottomOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
+            app:layout_constraintTop_toTopOf="@id/post_holder"
+            android:visibility="gone"/>
 
         <Constraint
             android:id="@+id/like_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:alpha="0"
             android:elevation="5dp"
-            android:scaleY="0"
-            android:scaleX="0"
-            android:rotation="0"
             android:padding="5dp"
-            app:layout_constraintStart_toEndOf="@id/post_card"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"/>
+            android:rotation="0"
+            android:scaleX="0"
+            android:scaleY="0"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
+            app:layout_constraintTop_toTopOf="@id/post_holder"
+            android:visibility="gone"/>
     </ConstraintSet>
 
-
-    <ConstraintSet android:id="@+id/right_card_visible">
+    <ConstraintSet android:id="@+id/top_card_expanded">
         <Constraint
-            android:id="@+id/post_card"
+            android:id="@id/post_holder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="0dp"
+            android:alpha="1"
             android:scaleX="1"
             android:scaleY="1"
-            android:alpha="0.3"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="1"
-            android:layout_marginEnd="100dp">
-            <CustomAttribute app:attributeName="cardBackgroundColor"
-                app:customColorValue="#9CFF0000"/>
+            app:layout_constraintHeight_percent="1.2">
+            <CustomAttribute
+                app:attributeName="cardBackgroundColor"
+                app:customColorValue="@color/secondaryLightColor" />
         </Constraint>
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetStart="@+id/start"
+        app:constraintSetEnd="@+id/end" >
+        <OnSwipe
+            app:touchAnchorId="@+id/post_holder"
+            app:dragDirection="dragLeft"
+            app:touchAnchorSide="right" />
+    </Transition>
+    <Transition
+        app:constraintSetStart="@+id/end"
+        app:constraintSetEnd="@+id/top_card_expanded" >
+        <OnSwipe
+            app:touchAnchorId="@+id/post_holder"
+            app:dragDirection="dragUp"
+            app:touchAnchorSide="middle" />
+    </Transition>
+    <ConstraintSet android:id="@+id/right_card_visible">
+        <Constraint
+            android:id="@id/post_holder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="100dp"
+            android:alpha="1"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="1">
+            <CustomAttribute
+                app:attributeName="cardBackgroundColor"
+                app:customColorValue="@color/secondaryLightColor" />
+        </Constraint>
+
         <Constraint
             android:id="@+id/delete_button"
             android:layout_width="64dp"
@@ -85,9 +135,9 @@
             android:scaleX="1"
             android:alpha="1"
             android:rotation="360"
-            app:layout_constraintTop_toTopOf="@id/post_card"
-            app:layout_constraintBottom_toBottomOf="@id/post_card"
-            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintTop_toTopOf="@id/post_holder"
+            app:layout_constraintBottom_toBottomOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
             android:layout_marginStart="20dp"/>
 
         <Constraint
@@ -99,8 +149,8 @@
             android:scaleY="1"
             android:scaleX="1"
             android:rotation="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintBottom_toBottomOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
             android:layout_marginBottom="25dp"
             android:layout_marginStart="10dp"/>
 
@@ -114,21 +164,32 @@
             android:scaleX="1"
             android:rotation="0"
             android:padding="5dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintTop_toTopOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
             android:layout_marginTop="25dp"
             android:layout_marginStart="10dp"/>
+
     </ConstraintSet>
+    <Transition
+        app:constraintSetStart="@+id/end"
+        app:constraintSetEnd="@+id/right_card_visible" >
+        <OnSwipe
+            app:touchAnchorId="@+id/post_holder"
+            app:dragDirection="dragLeft"
+            app:touchAnchorSide="right" />
+    </Transition>
 
     <ConstraintSet android:id="@+id/right_card_off_screen">
         <Constraint
-            android:id="@+id/post_card"
+            android:id="@+id/post_holder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:scaleX="0.5"
             android:scaleY="0.5"
             android:alpha="0.1"
             android:translationZ="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="100dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintWidth_percent="1"
             android:layout_marginEnd="200dp">
@@ -143,34 +204,22 @@
             android:scaleY="1.5"
             android:scaleX="1.5"
             android:rotation="360"
-            app:layout_constraintBottom_toBottomOf="@id/post_card"
-            app:layout_constraintStart_toEndOf="@id/post_card"
-            app:layout_constraintTop_toTopOf="@id/post_card"/>
+            app:layout_constraintBottom_toBottomOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
+            app:layout_constraintTop_toTopOf="@id/post_holder"/>
     </ConstraintSet>
-
-    <Transition
-        app:constraintSetEnd="@+id/right_card_visible"
-        app:constraintSetStart="@+id/start"
-        app:duration="500"
-        app:motionInterpolator="linear">
-        <OnSwipe
-            app:dragDirection="dragLeft"
-            app:touchAnchorSide="end"
-            app:touchAnchorId="@id/post_card"
-            app:touchRegionId="@id/post_card"
-            app:onTouchUp="decelerateAndComplete"/>
-    </Transition>
-
 
     <ConstraintSet android:id="@+id/archive_button_visible">
         <Constraint
-            android:id="@+id/post_card"
+            android:id="@+id/post_holder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:scaleX="1"
-            android:scaleY="1"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:alpha="0.3"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="100dp"
             app:layout_constraintWidth_percent="1"
             android:layout_marginEnd="100dp">
             <CustomAttribute app:attributeName="cardBackgroundColor"
@@ -185,8 +234,8 @@
             android:scaleX="1"
             android:alpha="1"
             android:rotation="0"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintTop_toTopOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
             android:layout_marginStart="10dp"
             android:layout_marginTop="25dp"/>
 
@@ -199,9 +248,9 @@
             android:scaleY="1"
             android:scaleX="1"
             android:rotation="0"
-            app:layout_constraintBottom_toBottomOf="@id/post_card"
-            app:layout_constraintStart_toEndOf="@id/post_card"
-            app:layout_constraintTop_toTopOf="@id/post_card"
+            app:layout_constraintBottom_toBottomOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
+            app:layout_constraintTop_toTopOf="@id/post_holder"
             android:layout_marginStart="20dp"/>
 
         <Constraint
@@ -214,8 +263,8 @@
             android:alpha="1"
             android:rotation="0"
             android:padding="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintBottom_toBottomOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="25dp"/>
     </ConstraintSet>
@@ -264,19 +313,21 @@
         <OnClick app:targetId="@+id/delete_button"
             app:clickAction="transitionToEnd"/>
         <OnSwipe
-            app:touchAnchorId="@+id/post_card"
+            app:touchAnchorId="@+id/post_holder"
             app:dragDirection="dragLeft"
             app:touchAnchorSide="right" />
     </Transition>
     <ConstraintSet android:id="@+id/like_button_main_trash_down">
         <Constraint
-            android:id="@+id/post_card"
+            android:id="@+id/post_holder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:scaleX="1"
-            android:scaleY="1"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:alpha="0.3"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="100dp"
             app:layout_constraintWidth_percent="1"
             android:layout_marginEnd="100dp">
             <CustomAttribute app:attributeName="cardBackgroundColor"
@@ -291,9 +342,9 @@
             android:scaleX="1"
             android:alpha="1"
             android:rotation="360"
-            app:layout_constraintTop_toTopOf="@id/post_card"
-            app:layout_constraintBottom_toBottomOf="@id/post_card"
-            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintTop_toTopOf="@id/post_holder"
+            app:layout_constraintBottom_toBottomOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
             android:layout_marginStart="20dp"/>
 
         <Constraint
@@ -305,8 +356,8 @@
             android:scaleY="1"
             android:scaleX="1"
             android:rotation="0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintBottom_toBottomOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
             android:layout_marginBottom="25dp"
             android:layout_marginStart="10dp"/>
 
@@ -320,8 +371,8 @@
             android:scaleX="1"
             android:rotation="0"
             android:padding="5dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/post_card"
+            app:layout_constraintTop_toTopOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
             android:layout_marginTop="25dp"
             android:layout_marginStart="10dp"/>
     </ConstraintSet>
@@ -389,23 +440,23 @@
     </Transition>
     <Transition
         app:constraintSetStart="@+id/like_button_main_trash_down"
-        app:constraintSetEnd="@+id/start" >
+        app:constraintSetEnd="@+id/end" >
         <OnSwipe
-            app:touchAnchorId="@+id/post_card"
+            app:touchAnchorId="@+id/post_holder"
             app:dragDirection="dragRight"
             app:touchAnchorSide="right" />
     </Transition>
     <Transition
         app:constraintSetStart="@+id/archive_button_visible"
-        app:constraintSetEnd="@+id/start" >
+        app:constraintSetEnd="@+id/end" >
         <OnSwipe
-            app:touchAnchorId="@+id/post_card"
+            app:touchAnchorId="@+id/post_holder"
             app:dragDirection="dragRight"
             app:touchAnchorSide="right" />
     </Transition>
     <ConstraintSet android:id="@+id/like_off_screne">
         <Constraint
-            android:id="@+id/post_card"
+            android:id="@+id/post_holder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:scaleX="0.5"
@@ -413,6 +464,8 @@
             android:alpha="0.1"
             android:translationZ="20dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="100dp"
             app:layout_constraintWidth_percent="1"
             android:layout_marginEnd="200dp">
             <CustomAttribute app:attributeName="cardBackgroundColor"
@@ -426,21 +479,21 @@
             android:scaleY="1.5"
             android:scaleX="1.5"
             android:rotation="360"
-            app:layout_constraintBottom_toBottomOf="@id/post_card"
-            app:layout_constraintStart_toEndOf="@id/post_card"
-            app:layout_constraintTop_toTopOf="@id/post_card"/>
+            app:layout_constraintBottom_toBottomOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
+            app:layout_constraintTop_toTopOf="@id/post_holder"/>
     </ConstraintSet>
     <Transition
         app:constraintSetStart="@+id/like_button_main_trash_down"
         app:constraintSetEnd="@+id/like_off_screne" >
         <OnSwipe
-            app:touchAnchorId="@+id/post_card"
+            app:touchAnchorId="@+id/post_holder"
             app:dragDirection="dragLeft"
             app:touchAnchorSide="right" />
     </Transition>
     <ConstraintSet android:id="@+id/archive_off_screen">
         <Constraint
-            android:id="@+id/post_card"
+            android:id="@+id/post_holder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:scaleX="0.5"
@@ -448,6 +501,8 @@
             android:alpha="0.1"
             android:translationZ="20dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="100dp"
             app:layout_constraintWidth_percent="1"
             android:layout_marginEnd="200dp">
             <CustomAttribute app:attributeName="cardBackgroundColor"
@@ -461,16 +516,17 @@
             android:scaleY="1.5"
             android:scaleX="1.5"
             android:rotation="360"
-            app:layout_constraintBottom_toBottomOf="@id/post_card"
-            app:layout_constraintStart_toEndOf="@id/post_card"
-            app:layout_constraintTop_toTopOf="@id/post_card"/>
+            app:layout_constraintBottom_toBottomOf="@id/post_holder"
+            app:layout_constraintStart_toEndOf="@id/post_holder"
+            app:layout_constraintTop_toTopOf="@id/post_holder"/>
     </ConstraintSet>
     <Transition
         app:constraintSetStart="@+id/archive_button_visible"
         app:constraintSetEnd="@+id/archive_off_screen" >
         <OnSwipe
-            app:touchAnchorId="@+id/post_card"
+            app:touchAnchorId="@+id/post_holder"
             app:dragDirection="dragLeft"
             app:touchAnchorSide="right" />
     </Transition>
+
 </MotionScene>
