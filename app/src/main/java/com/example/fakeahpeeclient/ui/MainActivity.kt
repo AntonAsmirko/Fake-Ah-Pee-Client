@@ -193,7 +193,7 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
                 override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {}
 
                 override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-                    if (p1 == startState) {
+                    if (p1 == R.id.start) {
                         motion.interceptChildren = false
                         postCard.alpha = 1.0f
                         motion.post_holder.alpha = 0.0f
