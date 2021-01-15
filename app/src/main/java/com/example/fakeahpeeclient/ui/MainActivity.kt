@@ -43,13 +43,13 @@ class MainActivity : AppCompatActivity(), PostsAdapter.OnItemClickListener {
         initRecycler()
         Log.i("YO", "Activity was created")
         motion.swipeHandler = OnSwipeTouchListener(this@MainActivity, onSwipeDown = {
-            if (motion.currentState == R.id.end && motion.progress == 1f) {
+            if (motion.currentState == R.id.end && motion.progress < 30f) {
                 motion.setTransition(R.id.end, R.id.top_card_expanded)
                 motion.progress = 0f
             }
         },
             onSwipeLeft = {
-                if (motion.currentState == R.id.end && motion.progress == 1f) {
+                if (motion.currentState == R.id.end && motion.progress < 30f) {
                     motion.setTransition(R.id.end, R.id.right_card_visible)
                     motion.progress = 0f
                 }

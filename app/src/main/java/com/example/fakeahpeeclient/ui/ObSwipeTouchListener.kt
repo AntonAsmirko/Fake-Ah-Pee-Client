@@ -11,9 +11,11 @@ import kotlin.math.abs
 
 
 open class OnSwipeTouchListener(
-    ctx: Context?, val onSwipeRight: (() -> Unit)? = null,
-    val onSwipeLeft: (() -> Unit)? = null, val onSwipeDown: (() -> Unit)? = null,
-    val onSwipeUp: (() -> Unit)? = null
+    ctx: Context?,
+    val onSwipeRight: ((e: MotionEvent?) -> Unit)? = null,
+    val onSwipeLeft: ((e: MotionEvent?) -> Unit)? = null,
+    val onSwipeDown: ((e: MotionEvent?) -> Unit)? = null,
+    val onSwipeUp: ((e: MotionEvent?) -> Unit)? = null
 ) : OnTouchListener {
     private val gestureDetector: GestureDetector
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
@@ -26,7 +28,7 @@ open class OnSwipeTouchListener(
             return true
         }
 
-        override fun onFling(
+        override fun onScroll(
             e1: MotionEvent,
             e2: MotionEvent,
             velocityX: Float,
@@ -40,20 +42,20 @@ open class OnSwipeTouchListener(
                     if (abs(diffX) > Companion.SWIPE_THRESHOLD && abs(velocityX) > Companion.SWIPE_VELOCITY_THRESHOLD) {
                         if (diffX > 0) {
                             Log.i("MOTION_TOUCH", "SWIPE RIGHT")
-                            onSwipeRight?.invoke()
+                            onSwipeRight?.invoke(e1)
                         } else {
                             Log.i("MOTION_TOUCH", "SWIPE LEFT")
-                            onSwipeLeft?.invoke()
+                            onSwipeLeft?.invoke(e1)
                         }
                         result = true
                     }
                 } else if (abs(diffY) > Companion.SWIPE_THRESHOLD && abs(velocityY) > Companion.SWIPE_VELOCITY_THRESHOLD) {
                     if (diffY > 0) {
                         Log.i("MOTION_TOUCH", "SWIPE DOWN")
-                        onSwipeDown?.invoke()
+                        onSwipeDown?.invoke(e1)
                     } else {
                         Log.i("MOTION_TOUCH", "SWIPE UP")
-                        onSwipeUp?.invoke()
+                        onSwipeUp?.invoke(e1)
                     }
                     result = true
                 }
@@ -70,7 +72,7 @@ open class OnSwipeTouchListener(
     }
 
     companion object {
-        private const val SWIPE_THRESHOLD = 300
-        private const val SWIPE_VELOCITY_THRESHOLD = 100
+        private const val SWIPE_THRESHOLD = 25
+        private const val SWIPE_VELOCITY_THRESHOLD = 1
     }
 }
