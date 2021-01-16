@@ -2,6 +2,7 @@ package com.example.fakeahpeeclient.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +16,14 @@ import kotlinx.android.synthetic.main.post_holder.view.*
 class PostsAdapter(
     var data: MutableList<Post>,
     val context: Context,
-    private val onItemClickListener: OnItemClickListener, ):
+    private val onItemClickListener: OnItemClickListener):
     RecyclerView.Adapter<PostsAdapter.PostHolder>() {
 
     private lateinit var rootView: View
-    private lateinit var layoutManager: LinearLayoutManager
+
+    init {
+        Log.i("POST_ADAPTER", "Post adapter was created")
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostHolder {
         rootView = parent
@@ -37,11 +41,6 @@ class PostsAdapter(
     }
 
     override fun getItemCount(): Int = data.size
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        layoutManager = recyclerView.layoutManager as LinearLayoutManager
-    }
 
     inner class PostHolder(val view: View, itemClickListener: OnItemClickListener) :
         RecyclerView.ViewHolder(view) {

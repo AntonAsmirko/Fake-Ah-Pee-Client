@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             savedInstanceState?.getIntegerArrayList(PERSIST_BOTTOM_NAVIGATION_STATE)
                 ?: ArrayList<Int>().also { it -> it.add(R.id.my_profile) }
         curBackStack = savedInstanceState?.getInt(CUR_BACK_STACK) ?: 0
-        setupBottomNavigation()
+        //setupBottomNavigation()
         savedInstanceState?.let {
             bottomNavigationView.selectedItemId = it.getInt(PERSIST_BOTTOM_NAVIGATION_STATE)
         }

@@ -4,14 +4,16 @@ import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.eightbitlab.supportrenderscriptblur.SupportRenderScriptBlur
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.extensions.isClicked
@@ -21,11 +23,11 @@ import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import com.example.fakeahpeeclient.ui.OnSwipeTouchListener
 import com.example.fakeahpeeclient.ui.PostsAdapter
 import kotlinx.android.synthetic.main.fragment_feed.*
-import kotlinx.android.synthetic.main.fragment_feed.motion
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 class FeedFragment : Fragment(), PostsAdapter.OnItemClickListener {
 
@@ -75,7 +77,8 @@ class FeedFragment : Fragment(), PostsAdapter.OnItemClickListener {
                     apply()
                 }
             } else CoroutineScope(Dispatchers.Main).launch {
-                FakeAhPeeClient.instance.loadAllPosts() }
+                FakeAhPeeClient.instance.loadAllPosts()
+            }
         }
         motion.callWhileIntercepting.add {
             if (like_button.isClicked(it)) motion.transitionToState(R.id.like_button_main_trash_down)
@@ -112,7 +115,9 @@ class FeedFragment : Fragment(), PostsAdapter.OnItemClickListener {
     private fun initRecycler() {
         if (FakeAhPeeClient.instance.postsAdapter == null)
             FakeAhPeeClient.instance.postsAdapter =
-                PostsAdapter(mutableListOf(), activity as Context, this)
+                PostsAdapter(
+                    mutableListOf(), activity as Context, this
+                )
         recycler_posts.layoutManager = LinearLayoutManager(activity as Context)
         recycler_posts.adapter = FakeAhPeeClient.instance.postsAdapter
     }
