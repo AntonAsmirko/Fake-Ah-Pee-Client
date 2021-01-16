@@ -8,137 +8,21 @@
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
 
-    <com.example.fakeahpeeclient.views.FlexMotionLayout
-        android:id="@+id/motion"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/my_nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutDescription="@xml/activity_main_scene">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_posts"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <eightbitlab.com.blurview.BlurView
-            android:id="@+id/blur"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/post_holder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:cardCornerRadius="20dp"
-            app:elevation="30dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/bottom_liquid"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/bottom_right_liquid_forward"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1" />
-
-                <!--            <ImageView-->
-                <!--                android:id="@+id/top_liquid"-->
-                <!--                android:layout_width="60dp"-->
-                <!--                android:layout_height="60dp"-->
-                <!--                android:src="@drawable/bottom_right_liquid_forward"-->
-                <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--                app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                app:layout_constraintHorizontal_bias="0"-->
-                <!--                app:layout_constraintStart_toStartOf="parent"-->
-                <!--                app:layout_constraintTop_toTopOf="parent"-->
-                <!--                app:layout_constraintVertical_bias="0" />-->
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:text="title"
-                    android:textSize="25sp"
-                    app:layout_constraintBottom_toTopOf="@id/content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_chainStyle="spread"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_chainStyle="spread"
-                    tools:layout_editor_absoluteX="5dp" />
-
-                <TextView
-                    android:id="@+id/content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:text="content"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/title" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <ImageButton
-            android:id="@+id/delete_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_corners_for_button"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_baseline_delete_24"
-            android:visibility="gone" />
-
-        <ImageButton
-            android:id="@+id/like_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_top_corners_pink"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_baseline_favorite_border_24"
-            android:visibility="gone" />
-
-        <ImageButton
-            android:id="@+id/archive_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/rounded_corners_archive"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_baseline_archive_24"
-            android:visibility="gone" />
-
-    </com.example.fakeahpeeclient.views.FlexMotionLayout>
+        android:layout_height="0dp" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_add_circle_outline_24"
         android:background="@color/secondaryDarkColor"
+        android:src="@drawable/ic_baseline_add_circle_outline_24"
         app:layout_anchor="@id/bottom_app_bar"
-        app:layout_anchorGravity="center"/>
+        app:layout_anchorGravity="center" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
@@ -146,15 +30,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:backgroundTint="@color/primaryDarkColor">
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
-            android:background="#00FFFFFF"
             android:layout_width="match_parent"
-            android:clickable="false"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            app:menu="@menu/main_menu"
+            android:background="#00FFFFFF"
+            android:clickable="false"
             android:outlineAmbientShadowColor="@android:color/transparent"
-            android:outlineSpotShadowColor="@android:color/transparent"/>
+            android:outlineSpotShadowColor="@android:color/transparent"
+            app:menu="@menu/main_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
