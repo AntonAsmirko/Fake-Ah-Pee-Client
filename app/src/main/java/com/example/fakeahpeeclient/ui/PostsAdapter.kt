@@ -2,29 +2,20 @@ package com.example.fakeahpeeclient.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.vectordrawable.graphics.drawable.Animatable2Compat
-import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.model.Post
-import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.activity_main.view.bottom_liquid
-import kotlinx.android.synthetic.main.activity_main.view.content
-import kotlinx.android.synthetic.main.activity_main.view.title
 import kotlinx.android.synthetic.main.post_holder.view.*
 
 class PostsAdapter(
     var data: MutableList<Post>,
     val context: Context,
-    private val onItemClickListener: OnItemClickListener,
-    private val decorView: View
-) :
+    private val onItemClickListener: OnItemClickListener, ):
     RecyclerView.Adapter<PostsAdapter.PostHolder>() {
 
     private lateinit var rootView: View
@@ -47,22 +38,9 @@ class PostsAdapter(
 
     override fun getItemCount(): Int = data.size
 
-    fun clear() {
-        data.clear()
-        notifyDataSetChanged()
-    }
-
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         layoutManager = recyclerView.layoutManager as LinearLayoutManager
-    }
-
-    fun blurRecycler() {
-        val firstVisible = layoutManager.findFirstVisibleItemPosition()
-        if (firstVisible > -1) {
-            val post = layoutManager.findViewByPosition(firstVisible)
-            val windowBackground = decorView.background
-        }
     }
 
     inner class PostHolder(val view: View, itemClickListener: OnItemClickListener) :
@@ -78,27 +56,6 @@ class PostsAdapter(
             view.setOnClickListener {
                 itemClickListener.onItemClick(view, layoutPosition, post)
             }
-
-            val animationBottomForward =
-                AnimatedVectorDrawableCompat.create(context, R.drawable.bottom_right_liquid_forward)
-            val animationBottomReverse =
-                AnimatedVectorDrawableCompat.create(context, R.drawable.bottom_right_liquid_reverce)
-            animationBottomReverse!!.registerAnimationCallback(object :
-                Animatable2Compat.AnimationCallback() {
-                override fun onAnimationEnd(drawable: Drawable) {
-                    animationBottomForward!!.start()
-                    view.bottom_liquid.setImageDrawable(animationBottomForward)
-                }
-            })
-            animationBottomForward!!.registerAnimationCallback(object :
-                Animatable2Compat.AnimationCallback() {
-                override fun onAnimationEnd(drawable: Drawable) {
-                    animationBottomReverse.start()
-                    view.bottom_liquid.setImageDrawable(animationBottomReverse)
-                }
-            })
-            animationBottomForward.start()
-            view.bottom_liquid.setImageDrawable(animationBottomForward)
         }
 
         @SuppressLint("ClickableViewAccessibility")

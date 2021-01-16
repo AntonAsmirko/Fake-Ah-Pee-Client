@@ -98,7 +98,8 @@ class FakeAhPeeClient : Application() {
     }
 
     suspend fun loadAllPosts() = withContext(Dispatchers.IO) {
-        postsAdapter?.data?.addAll(postDAO.getAll())
+        val tmp = postDAO.getAll()
+        postsAdapter?.data?.addAll(tmp)
         withContext(Dispatchers.Main){
             postsAdapter?.notifyDataSetChanged()
         }

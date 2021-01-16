@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.fakeahpeeclient"
-        minSdkVersion 23
+        minSdkVersion 28
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -36,8 +36,10 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     apply plugin: "kotlin-kapt"
     def room_version = "2.2.5"
+    def nav_version = "2.3.2"
 
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -59,4 +61,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0'
     implementation 'com.eightbitlab:blurview:1.6.5'
     implementation 'com.eightbitlab:supportrenderscriptblur:1.0.2'
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    apply plugin: 'androidx.navigation.safeargs.kotlin'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.airbnb.android:lottie:3.0.0'
+
 }
