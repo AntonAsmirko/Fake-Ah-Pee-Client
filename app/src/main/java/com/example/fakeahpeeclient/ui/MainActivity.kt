@@ -35,9 +35,9 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().add(R.id.my_nav_host_fragment, FeedFragment()).commit()
         stackGlobal =
             savedInstanceState?.getIntegerArrayList(PERSIST_BOTTOM_NAVIGATION_STATE)
-                ?: ArrayList<Int>().also { it -> it.add(R.id.my_profile) }
+                ?: ArrayList<Int>().also { it -> it.add(R.id.profile_navigation) }
         curBackStack = savedInstanceState?.getInt(CUR_BACK_STACK) ?: 0
-        //setupBottomNavigation()
+        setupBottomNavigation()
         savedInstanceState?.let {
             bottomNavigationView.selectedItemId = it.getInt(PERSIST_BOTTOM_NAVIGATION_STATE)
         }
