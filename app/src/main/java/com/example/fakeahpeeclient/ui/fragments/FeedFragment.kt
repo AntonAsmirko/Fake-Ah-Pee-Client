@@ -11,10 +11,7 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.eightbitlab.supportrenderscriptblur.SupportRenderScriptBlur
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.extensions.isClicked
 import com.example.fakeahpeeclient.extensions.setTransitionListener
@@ -22,6 +19,7 @@ import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import com.example.fakeahpeeclient.ui.OnSwipeTouchListener
 import com.example.fakeahpeeclient.ui.PostsAdapter
+import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.android.synthetic.main.fragment_feed.*
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -65,7 +63,7 @@ class FeedFragment : Fragment(), PostsAdapter.OnItemClickListener {
         blur.setupWith(motion)
             .setBlurEnabled(false)
             .setBlurAutoUpdate(true)
-            .setBlurAlgorithm(SupportRenderScriptBlur(activity as Context))
+            .setBlurAlgorithm(RenderScriptBlur(activity as Context))
             .setBlurRadius(25f)
             .setOverlayColor(ResourcesCompat.getColor(resources, R.color.colorOverlay, null))
         if (FakeAhPeeClient.instance.postsAdapter?.data?.isEmpty() ?: false) {

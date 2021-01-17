@@ -7,12 +7,14 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.example.fakeahpeeclient.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.fakeahpeeclient.extensions.*
 import com.example.fakeahpeeclient.ui.fragments.ChatsFragment
 import com.example.fakeahpeeclient.ui.fragments.ProfileFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         setupBottomNavigation()
         savedInstanceState?.let {
             bottomNavigationView.selectedItemId = it.getInt(PERSIST_BOTTOM_NAVIGATION_STATE)
+        }
+        fab.setOnClickListener {
+            currentNavController?.value!!.navigate(R.id.action_feedFragment_to_createPostFragment)
         }
     }
 
