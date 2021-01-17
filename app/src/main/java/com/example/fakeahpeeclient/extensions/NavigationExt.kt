@@ -243,7 +243,7 @@ private fun attachNavHostFragment(
 
 }
 
-private fun obtainNavHostFragment(
+fun obtainNavHostFragment(
     fragmentManager: FragmentManager,
     fragmentTag: String,
     navGraphId: Int,

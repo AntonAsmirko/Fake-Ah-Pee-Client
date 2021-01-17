@@ -11,8 +11,8 @@ import com.example.fakeahpeeclient.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.fakeahpeeclient.extensions.*
 import com.example.fakeahpeeclient.ui.fragments.ChatsFragment
-import com.example.fakeahpeeclient.ui.fragments.FeedFragment
 import com.example.fakeahpeeclient.ui.fragments.ProfileFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.i("YO", "Activity was created")
-        supportFragmentManager.beginTransaction().add(R.id.my_nav_host_fragment, FeedFragment()).commit()
         stackGlobal =
             savedInstanceState?.getIntegerArrayList(PERSIST_BOTTOM_NAVIGATION_STATE)
                 ?: ArrayList<Int>().also { it -> it.add(R.id.profile_navigation) }
@@ -76,7 +75,9 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView = findViewById(R.id.bottom_navigation)
         val navGraphIds = listOf(
             R.navigation.profile_nevigation,
-            R.navigation.chats_navigation
+            R.navigation.chats_navigation,
+            R.navigation.feed_navigation,
+            R.navigation.settings_navigation
         )
         bottomNavigationView.selectedItemId = stackGlobal.last()
         val controller = bottomNavigationView.setupWithNavController(
