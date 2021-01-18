@@ -1,5 +1,6 @@
-package com.example.fakeahpeeclient.ui
+package com.example.fakeahpeeclient.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.SparseArray
@@ -7,13 +8,11 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import com.example.fakeahpeeclient.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.fakeahpeeclient.extensions.*
 import com.example.fakeahpeeclient.ui.fragments.ChatsFragment
 import com.example.fakeahpeeclient.ui.fragments.ProfileFragment
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.i("YO", "Activity was created")
+        startActivityForResult(Intent(this, AuthActivity::class.java), 1)
         stackGlobal =
             savedInstanceState?.getIntegerArrayList(PERSIST_BOTTOM_NAVIGATION_STATE)
                 ?: ArrayList<Int>().also { it -> it.add(R.id.profile_navigation) }

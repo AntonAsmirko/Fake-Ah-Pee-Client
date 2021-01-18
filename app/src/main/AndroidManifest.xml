@@ -13,8 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FakeAhPeeClient">
-        <activity android:name=".ui.CreatePostActivity"></activity>
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.activities.AuthActivity"></activity>
+        <activity android:name=".ui.CreatePostActivity" />
+        <activity android:name=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

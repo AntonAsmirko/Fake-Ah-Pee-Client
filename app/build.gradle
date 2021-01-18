@@ -65,4 +65,5 @@ dependencies {
     apply plugin: "kotlin-kapt"
     kapt "androidx.room:room-compiler:$room_version"
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.airbnb.android:lottie:3.0.0'
 }

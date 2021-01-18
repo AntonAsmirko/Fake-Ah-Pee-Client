@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
-import kotlinx.android.synthetic.main.activity_create_post.*
+import kotlinx.android.synthetic.main.fragment_create_post.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
