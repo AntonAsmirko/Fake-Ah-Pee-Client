@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeahpeeclient.R
 import com.example.fakeahpeeclient.extensions.isClicked
@@ -176,16 +177,16 @@ class FeedFragment : Fragment(), PostsAdapter.OnItemClickListener {
         motion.apply {
             updateState(R.id.start, setStart)
             swipeHandler = OnSwipeTouchListener(activity as Context,
-                onSwipeDown = {
-                    if (motion.currentState == R.id.end && motion.progress < 30f) {
-                        motion.setTransition(R.id.end, R.id.top_card_expanded)
-                        motion.progress = 0f
-                    }
-                },
                 onSwipeLeft = {
                     if (motion.currentState == R.id.end && motion.progress < 30f) {
                         motion.setTransition(R.id.end, R.id.right_card_visible)
                         motion.progress = 0f
+                    }
+                },
+                onLongPress = {
+                    if (motion.currentState == R.id.end) {
+                        motion.setTransition(R.id.end, R.id.top_card_expanded)
+                        motion.transitionToEnd()
                     }
                 })
             setTransition(R.id.start, R.id.end)
@@ -197,11 +198,16 @@ class FeedFragment : Fragment(), PostsAdapter.OnItemClickListener {
                 }
             },
                 { p1 ->
-                    if (p1 == R.id.start) {
-                        motion.interceptChildren = false
-                        postCard.alpha = 1.0f
-                        motion.post_holder.alpha = 0.0f
+                    when (p1) {
+                        R.id.start -> {
+                            motion.interceptChildren = false
+                            postCard.alpha = 1.0f
+                            motion.post_holder.alpha = 0.0f
+                        }
+                        R.id.top_card_fill_screen -> this@FeedFragment.findNavController()
+                            .navigate(R.id.action_feedFragment_to_postFragment)
                     }
+
                 })
             transitionToEnd()
         }

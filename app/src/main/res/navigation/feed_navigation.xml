@@ -14,6 +14,9 @@
             app:destination="@id/createPostFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_feedFragment_to_postFragment"
+            app:destination="@id/postFragment" />
     </fragment>
     <fragment
         android:id="@+id/createPostFragment"
@@ -26,4 +29,9 @@
             app:enterAnim="@android:anim/fade_out"
             app:exitAnim="@android:anim/fade_in" />
     </fragment>
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.example.fakeahpeeclient.ui.fragments.PostFragment"
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" />
 </navigation>

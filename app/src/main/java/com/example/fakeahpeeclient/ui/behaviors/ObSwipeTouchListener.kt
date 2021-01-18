@@ -15,7 +15,8 @@ open class OnSwipeTouchListener(
     val onSwipeRight: ((e: MotionEvent?) -> Unit)? = null,
     val onSwipeLeft: ((e: MotionEvent?) -> Unit)? = null,
     val onSwipeDown: ((e: MotionEvent?) -> Unit)? = null,
-    val onSwipeUp: ((e: MotionEvent?) -> Unit)? = null
+    val onSwipeUp: ((e: MotionEvent?) -> Unit)? = null,
+    val onLongPress: ((e: MotionEvent?) -> Unit)? = null
 ) : OnTouchListener {
     private val gestureDetector: GestureDetector
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
@@ -65,6 +66,9 @@ open class OnSwipeTouchListener(
             return result
         }
 
+        override fun onLongPress(e: MotionEvent?) {
+            onLongPress?.invoke(e) ?: Unit
+        }
     }
 
     init {
