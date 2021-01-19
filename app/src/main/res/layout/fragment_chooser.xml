@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragments.ChooserFragment">
+    tools:context=".ui.fragments.auth.ChooserFragment">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/chooser_anim"
@@ -30,6 +30,7 @@
         app:layout_constraintTop_toBottomOf="@id/chooser_anim"
         android:layout_width="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="30dp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_height="80dp"
         android:backgroundTint="#000000">
@@ -72,6 +73,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         app:cardCornerRadius="10dp"
+        android:elevation="30dp"
         android:layout_marginBottom="30dp"
         android:id="@+id/log_in_with_email"
         app:layout_constraintTop_toBottomOf="@id/log_in_with_google"

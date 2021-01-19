@@ -7,7 +7,25 @@
 
     <fragment
         android:id="@+id/chooserFragment"
-        android:name="com.example.fakeahpeeclient.ui.fragments.ChooserFragment"
+        android:name="com.example.fakeahpeeclient.ui.fragments.auth.ChooserFragment"
         android:label="fragment_chooser"
-        tools:layout="@layout/fragment_chooser" />
+        tools:layout="@layout/fragment_chooser" >
+        <action
+            android:id="@+id/action_chooserFragment_to_fragmentSignInWithEmail"
+            app:destination="@id/fragmentSignInWithEmail" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSignInWithEmail"
+        android:name="com.example.fakeahpeeclient.ui.fragments.auth.FragmentSignInWithEmail"
+        android:label="fragment_sign_in_with_email"
+        tools:layout="@layout/fragment_sign_in_with_email" >
+        <action
+            android:id="@+id/action_fragmentSignInWithEmail_to_registerWithEmailFragment"
+            app:destination="@id/registerWithEmailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerWithEmailFragment"
+        android:name="com.example.fakeahpeeclient.ui.fragments.auth.RegisterWithEmailFragment"
+        android:label="fragment_register_with_email"
+        tools:layout="@layout/fragment_register_with_email" />
 </navigation>
