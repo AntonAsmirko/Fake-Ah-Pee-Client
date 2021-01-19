@@ -11,6 +11,7 @@ import com.example.fakeahpeeclient.model.Post
 import com.example.fakeahpeeclient.storage.AppDatabase
 import com.example.fakeahpeeclient.storage.PostDAO
 import com.example.fakeahpeeclient.ui.PostsAdapter
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -28,6 +29,7 @@ class FakeAhPeeClient : Application() {
     private lateinit var moshiConverterFactory: MoshiConverterFactory
     private lateinit var db: AppDatabase
     private lateinit var postDAO: PostDAO
+    lateinit var mAuth: FirebaseAuth
     var sharedPref: SharedPreferences? = null
     var isBDEmpty = true
     var isCurLightTheme = true
@@ -52,6 +54,8 @@ class FakeAhPeeClient : Application() {
             .databaseBuilder(applicationContext, AppDatabase::class.java, "database").build()
 
         postDAO = db.postDAO()
+
+        mAuth = FirebaseAuth.getInstance()
     }
 
     suspend fun fetchPosts(

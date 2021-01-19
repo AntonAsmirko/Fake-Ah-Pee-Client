@@ -37,6 +37,8 @@ android {
 }
 
 dependencies {
+    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0'
+    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0'
     def room_version = "2.2.6"
     def nav_version = "2.3.2"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

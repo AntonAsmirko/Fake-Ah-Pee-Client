@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import com.example.fakeahpeeclient.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.fakeahpeeclient.extensions.*
+import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import com.example.fakeahpeeclient.ui.fragments.ChatsFragment
 import com.example.fakeahpeeclient.ui.fragments.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,7 +34,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.i("YO", "Activity was created")
-        startActivityForResult(Intent(this, AuthActivity::class.java), 1)
+        if (FakeAhPeeClient.instance.mAuth.currentUser == null) {
+            startActivityForResult(Intent(this, AuthActivity::class.java), 1)
+        }
         stackGlobal =
             savedInstanceState?.getIntegerArrayList(PERSIST_BOTTOM_NAVIGATION_STATE)
                 ?: ArrayList<Int>().also { it -> it.add(R.id.profile_navigation) }
