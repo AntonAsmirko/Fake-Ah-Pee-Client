@@ -51,7 +51,6 @@ class RegisterWithEmailFragment : Fragment() {
             enter_email.requestFocus()
             return
         }
-
         FakeAhPeeClient.instance.mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
