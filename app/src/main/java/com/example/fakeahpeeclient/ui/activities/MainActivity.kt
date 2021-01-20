@@ -37,9 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.i("YO", "Activity was created")
-        if (FakeAhPeeClient.instance.mAuth.currentUser == null) {
-            startActivityForResult(Intent(this, AuthActivity::class.java), START_AUTH_ACTIVITY)
-        }
+        startAuthProcess()
         stackGlobal =
             savedInstanceState?.getIntegerArrayList(PERSIST_BOTTOM_NAVIGATION_STATE)
                 ?: ArrayList<Int>().also { it -> it.add(R.id.profile_navigation) }
@@ -86,6 +84,15 @@ class MainActivity : AppCompatActivity() {
                 graphIdToTagMap
             )
         }
+    }
+
+    fun resetBackstack(){
+        bottomNavigationView.selectedItemId = R.id.profile_navigation
+    }
+
+    fun startAuthProcess() {
+        if (FakeAhPeeClient.instance.mAuth.currentUser == null)
+            startActivityForResult(Intent(this, AuthActivity::class.java), START_AUTH_ACTIVITY)
     }
 
     private fun getCurCount(num: Int): Int {
