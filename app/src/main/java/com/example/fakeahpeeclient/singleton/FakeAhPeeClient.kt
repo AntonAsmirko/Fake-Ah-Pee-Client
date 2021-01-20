@@ -4,7 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import androidx.constraintlayout.widget.ConstraintSet
+import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import com.example.fakeahpeeclient.network.PostNetwork
 import com.example.fakeahpeeclient.model.Post
@@ -13,8 +14,7 @@ import com.example.fakeahpeeclient.storage.AppDatabase
 import com.example.fakeahpeeclient.storage.PostDAO
 import com.example.fakeahpeeclient.ui.PostsAdapter
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,7 +35,7 @@ class FakeAhPeeClient : Application() {
     lateinit var mAuth: FirebaseAuth
     private lateinit var fDatabase: FirebaseDatabase
     private lateinit var dbRef: DatabaseReference
-    var user: User? = null
+    var user: MutableLiveData<User?> = MutableLiveData()
     var sharedPref: SharedPreferences? = null
     var isBDEmpty = true
     var isCurLightTheme = true
@@ -64,6 +64,24 @@ class FakeAhPeeClient : Application() {
         mAuth = FirebaseAuth.getInstance()
         fDatabase = FirebaseDatabase.getInstance()
         dbRef = fDatabase.reference
+        if (mAuth.currentUser != null) {
+            dbRef.child("users").addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (idSnapshot in snapshot.children) {
+                        if (idSnapshot.key == mAuth.currentUser!!.uid) {
+                            this@FakeAhPeeClient.user.value = idSnapshot.getValue(User::class.java)
+                            return
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(this@FakeAhPeeClient, "Problem to get user", Toast.LENGTH_LONG)
+                        .show()
+                }
+
+            })
+        }
     }
 
     suspend fun fetchPosts(
@@ -86,7 +104,8 @@ class FakeAhPeeClient : Application() {
         postNetwork.deletePost(id).enqueue(commonCallback<ResponseBody>(success, failure))
     }
 
-    fun addUser(user:User, UID: String){
+    fun addUser(user: User, UID: String) {
+        this.user.value = user
         dbRef.database.reference.child("users").child(UID).setValue(user)
     }
 
@@ -116,7 +135,7 @@ class FakeAhPeeClient : Application() {
     suspend fun loadAllPosts() = withContext(Dispatchers.IO) {
         val tmp = postDAO.getAll()
         postsAdapter?.data?.addAll(tmp)
-        withContext(Dispatchers.Main){
+        withContext(Dispatchers.Main) {
             postsAdapter?.notifyDataSetChanged()
         }
     }
