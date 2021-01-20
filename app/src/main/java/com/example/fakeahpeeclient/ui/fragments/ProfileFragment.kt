@@ -16,10 +16,6 @@ class ProfileFragment : Fragment() {
         var globalCount = 0
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,7 +26,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        FakeAhPeeClient.instance.user.observe(viewLifecycleOwner, Observer {
+        FakeAhPeeClient.instance.user.observe(viewLifecycleOwner, {
             username.text = it?.name
         })
 

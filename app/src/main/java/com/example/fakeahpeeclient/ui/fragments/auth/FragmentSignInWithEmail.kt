@@ -54,6 +54,7 @@ class FragmentSignInWithEmail : Fragment() {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     Log.d("SIGN_IN", "signInWithEmail:success")
+                    FakeAhPeeClient.instance.loadUser()
                     (activity as AuthActivity).finishActivity()
                 } else {
                     Log.w("SIGN_IN", "signInWithEmail:failure", it.exception)

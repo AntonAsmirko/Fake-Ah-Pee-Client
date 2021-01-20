@@ -64,6 +64,10 @@ class FakeAhPeeClient : Application() {
         mAuth = FirebaseAuth.getInstance()
         fDatabase = FirebaseDatabase.getInstance()
         dbRef = fDatabase.reference
+        loadUser()
+    }
+
+    fun loadUser() {
         if (mAuth.currentUser != null) {
             dbRef.child("users").addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
