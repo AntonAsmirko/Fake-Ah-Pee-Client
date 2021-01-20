@@ -8,10 +8,13 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.room.Room
 import com.example.fakeahpeeclient.network.PostNetwork
 import com.example.fakeahpeeclient.model.Post
+import com.example.fakeahpeeclient.model.User
 import com.example.fakeahpeeclient.storage.AppDatabase
 import com.example.fakeahpeeclient.storage.PostDAO
 import com.example.fakeahpeeclient.ui.PostsAdapter
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -30,6 +33,9 @@ class FakeAhPeeClient : Application() {
     private lateinit var db: AppDatabase
     private lateinit var postDAO: PostDAO
     lateinit var mAuth: FirebaseAuth
+    private lateinit var fDatabase: FirebaseDatabase
+    private lateinit var dbRef: DatabaseReference
+    var user: User? = null
     var sharedPref: SharedPreferences? = null
     var isBDEmpty = true
     var isCurLightTheme = true
@@ -56,6 +62,8 @@ class FakeAhPeeClient : Application() {
         postDAO = db.postDAO()
 
         mAuth = FirebaseAuth.getInstance()
+        fDatabase = FirebaseDatabase.getInstance()
+        dbRef = fDatabase.reference
     }
 
     suspend fun fetchPosts(
@@ -76,6 +84,10 @@ class FakeAhPeeClient : Application() {
         failure: (Throwable) -> Unit
     ) = withContext(Dispatchers.IO) {
         postNetwork.deletePost(id).enqueue(commonCallback<ResponseBody>(success, failure))
+    }
+
+    fun addUser(user:User, UID: String){
+        dbRef.database.reference.child("users").child(UID).setValue(user)
     }
 
     suspend fun deletePostFromBD(post: Post) = withContext(Dispatchers.IO) {

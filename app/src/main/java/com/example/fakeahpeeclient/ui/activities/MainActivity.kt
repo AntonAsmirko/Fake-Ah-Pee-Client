@@ -1,10 +1,12 @@
 package com.example.fakeahpeeclient.ui.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.SparseArray
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         const val MAKE_POST_REQUEST = 101
         const val PERSIST_BOTTOM_NAVIGATION_STATE = "YO"
         const val CUR_BACK_STACK = "OY"
+        const val START_AUTH_ACTIVITY = 111
     }
 
     private var currentNavController: LiveData<NavController>? = null
@@ -35,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.i("YO", "Activity was created")
         if (FakeAhPeeClient.instance.mAuth.currentUser == null) {
-            startActivityForResult(Intent(this, AuthActivity::class.java), 1)
+            startActivityForResult(Intent(this, AuthActivity::class.java), START_AUTH_ACTIVITY)
         }
         stackGlobal =
             savedInstanceState?.getIntegerArrayList(PERSIST_BOTTOM_NAVIGATION_STATE)
@@ -47,6 +50,19 @@ class MainActivity : AppCompatActivity() {
         }
         fab.setOnClickListener {
             currentNavController?.value!!.navigate(R.id.action_feedFragment_to_createPostFragment)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            START_AUTH_ACTIVITY ->
+                if (resultCode == Activity.RESULT_OK) {
+                    FakeAhPeeClient.instance.user
+                } else {
+                    Toast.makeText(this, "Unable to Sign In", Toast.LENGTH_SHORT).show()
+                }
+
         }
     }
 

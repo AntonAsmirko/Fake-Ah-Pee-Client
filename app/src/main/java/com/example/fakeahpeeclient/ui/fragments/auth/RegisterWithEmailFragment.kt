@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.fakeahpeeclient.R
+import com.example.fakeahpeeclient.model.User
 import com.example.fakeahpeeclient.singleton.FakeAhPeeClient
 import com.example.fakeahpeeclient.ui.activities.AuthActivity
 import kotlinx.android.synthetic.main.fragment_register_with_email.*
@@ -55,6 +56,13 @@ class RegisterWithEmailFragment : Fragment() {
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     Log.d("NEW_USER", "signInWithEmail:success")
+                    val user = User(name)
+                    val UID = FakeAhPeeClient.instance.mAuth.currentUser?.uid
+                    if (UID != null) {
+                        FakeAhPeeClient.instance.addUser(user, UID)
+                    } else {
+                        Toast.makeText(activity, "Unable to add user", Toast.LENGTH_LONG).show()
+                    }
                     (activity as AuthActivity).finishActivity()
                 } else {
                     Log.w("NEW_USER", "signInWithEmail:failure", it.exception)
