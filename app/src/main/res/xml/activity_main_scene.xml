@@ -14,7 +14,13 @@
                 app:customDimension="20dp" />
             <CustomAttribute
                 app:attributeName="cardBackgroundColor"
-                app:customColorValue="@color/secondaryLightColor" />
+                app:customColorValue="@color/secondaryLightColor"/>
+        </Constraint>
+        <Constraint
+            android:id="@+id/blur">
+            <CustomAttribute
+                app:attributeName="backgroundColor"
+                app:customColorValue="#004C4C4C"/>
         </Constraint>
     </ConstraintSet>
 
@@ -22,12 +28,11 @@
         <Constraint
             android:id="@id/post_holder"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="170dp"
             android:layout_marginTop="100dp"
-            android:layout_marginEnd="0dp"
             android:alpha="1"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
+            android:scaleX="0.95"
+            android:scaleY="0.95"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -84,18 +89,23 @@
             android:visibility="gone"
             app:layout_constraintStart_toEndOf="@id/post_holder"
             app:layout_constraintTop_toTopOf="@id/post_holder" />
+        <Constraint
+            android:id="@+id/blur">
+            <CustomAttribute
+                app:attributeName="backgroundColor"
+                app:customColorValue="#B9393939"/>
+        </Constraint>
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/top_card_expanded">
         <Constraint
             android:id="@id/post_holder"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="170dp"
             android:layout_marginTop="120dp"
-            android:layout_marginEnd="0dp"
             android:alpha="1"
-            android:scaleX="1"
-            android:scaleY="1"
+            android:scaleX="0.97"
+            android:scaleY="0.97"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="1.2"
@@ -112,12 +122,9 @@
 
     <Transition
         app:constraintSetEnd="@+id/end"
-        app:constraintSetStart="@+id/start">
-        <OnSwipe
-            app:dragDirection="dragLeft"
-            app:touchAnchorId="@+id/post_holder"
-            app:touchAnchorSide="right" />
-    </Transition>
+        app:constraintSetStart="@+id/start"
+        app:duration="300"
+        app:motionInterpolator="easeInOut"/>
     <Transition
         app:constraintSetEnd="@+id/top_card_expanded"
         app:constraintSetStart="@+id/end" />
@@ -125,12 +132,12 @@
         <Constraint
             android:id="@id/post_holder"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="170dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="100dp"
             android:alpha="1"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:scaleX="1"
+            android:scaleY="1"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -159,7 +166,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="25dp"
             android:alpha="1"
             android:elevation="5dp"
             android:rotation="0"
@@ -173,7 +179,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="25dp"
             android:alpha="1"
             android:elevation="5dp"
             android:padding="5dp"
@@ -197,7 +202,7 @@
         <Constraint
             android:id="@+id/post_holder"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="170dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="200dp"
             android:alpha="0.1"
@@ -228,12 +233,12 @@
         <Constraint
             android:id="@+id/post_holder"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="170dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="100dp"
             android:alpha="0.3"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:scaleX="1"
+            android:scaleY="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="1">
@@ -246,7 +251,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="25dp"
             android:alpha="1"
             android:elevation="5dp"
             android:rotation="0"
@@ -274,7 +278,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="25dp"
             android:alpha="1"
             android:elevation="5dp"
             android:padding="5dp"
@@ -339,12 +342,12 @@
         <Constraint
             android:id="@+id/post_holder"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="170dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="100dp"
             android:alpha="0.3"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:scaleX="1"
+            android:scaleY="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="1">
@@ -371,7 +374,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="25dp"
             android:alpha="1"
             android:elevation="5dp"
             android:rotation="0"
@@ -385,7 +387,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="25dp"
             android:alpha="1"
             android:elevation="5dp"
             android:padding="5dp"
@@ -477,7 +478,7 @@
         <Constraint
             android:id="@+id/post_holder"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="170dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="200dp"
             android:alpha="0.1"
@@ -515,7 +516,7 @@
         <Constraint
             android:id="@+id/post_holder"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="170dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="200dp"
             android:alpha="0.1"

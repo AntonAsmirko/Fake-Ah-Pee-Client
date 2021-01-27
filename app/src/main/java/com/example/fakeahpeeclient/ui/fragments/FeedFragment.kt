@@ -61,12 +61,6 @@ class FeedFragment : Fragment(), PostsAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecycler()
-        blur.setupWith(motion)
-            .setBlurEnabled(false)
-            .setBlurAutoUpdate(true)
-            .setBlurAlgorithm(RenderScriptBlur(activity as Context))
-            .setBlurRadius(25f)
-            .setOverlayColor(ResourcesCompat.getColor(resources, R.color.colorOverlay, null))
         if (FakeAhPeeClient.instance.postsAdapter?.data?.isEmpty() ?: false) {
             if (FakeAhPeeClient.instance.isBDEmpty) {
                 fetchPosts()
@@ -102,7 +96,6 @@ class FeedFragment : Fragment(), PostsAdapter.OnItemClickListener {
                             setTransition(R.id.end, R.id.start)
                             transitionToEnd()
                         }
-                        blur.setBlurEnabled(false)
                     }
                 }
                 true
@@ -171,7 +164,6 @@ class FeedFragment : Fragment(), PostsAdapter.OnItemClickListener {
                 )
             }
         }
-        blur.setBlurEnabled(true)
         postCard.alpha = 0.0f
         motion.post_holder.visibility = View.VISIBLE
         motion.apply {
