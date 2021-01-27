@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeahpeeclient.R
+import com.example.fakeahpeeclient.convertDpToPixel
 import com.example.fakeahpeeclient.extensions.isClicked
 import com.example.fakeahpeeclient.extensions.setTransitionListener
 import com.example.fakeahpeeclient.model.Post
@@ -164,6 +165,7 @@ class FeedFragment : Fragment(), PostsAdapter.OnItemClickListener {
                 )
             }
         }
+
         postCard.alpha = 0.0f
         motion.post_holder.visibility = View.VISIBLE
         motion.apply {
@@ -198,10 +200,74 @@ class FeedFragment : Fragment(), PostsAdapter.OnItemClickListener {
                         }
                         R.id.top_card_fill_screen -> this@FeedFragment.findNavController()
                             .navigate(R.id.action_feedFragment_to_postFragment)
+                        R.id.end -> {
+                            val endSet = getConstraintSet(R.id.end)
+                            bindToPostHolder(endSet)
+                        }
                     }
 
                 })
             transitionToEnd()
         }
+    }
+
+    private fun bindToPostHolder(set: ConstraintSet) {
+        set.clear(R.id.delete_button)
+        set.clear(R.id.archive_button)
+        set.clear(R.id.like_button)
+        set.constrainWidth(R.id.delete_button, convertDpToPixel(64f, activity as Context).toInt())
+        set.constrainHeight(R.id.delete_button, convertDpToPixel(64f, activity as Context).toInt())
+        set.constrainWidth(R.id.like_button, convertDpToPixel(40f, activity as Context).toInt())
+        set.constrainHeight(R.id.like_button, convertDpToPixel(40f, activity as Context).toInt())
+        set.constrainWidth(R.id.archive_button, convertDpToPixel(40f, activity as Context).toInt())
+        set.constrainHeight(R.id.archive_button, convertDpToPixel(40f, activity as Context).toInt())
+        delete_button.visibility = View.GONE
+        like_button.visibility = View.GONE
+        archive_button.visibility = View.GONE
+        set.connect(
+            R.id.delete_button,
+            ConstraintSet.START,
+            R.id.post_holder,
+            ConstraintSet.END,
+            convertDpToPixel(10f, activity as Context).toInt()
+        )
+        set.connect(
+            R.id.delete_button,
+            ConstraintSet.TOP,
+            R.id.post_holder,
+            ConstraintSet.TOP
+        )
+        set.connect(
+            R.id.delete_button,
+            ConstraintSet.BOTTOM,
+            R.id.post_holder,
+            ConstraintSet.BOTTOM
+        )
+        set.connect(
+            R.id.like_button,
+            ConstraintSet.START,
+            R.id.post_holder,
+            ConstraintSet.END,
+            convertDpToPixel(10f, activity as Context).toInt()
+        )
+        set.connect(
+            R.id.like_button,
+            ConstraintSet.TOP,
+            R.id.post_holder,
+            ConstraintSet.TOP
+        )
+        set.connect(
+            R.id.archive_button,
+            ConstraintSet.START,
+            R.id.post_holder,
+            ConstraintSet.END,
+            convertDpToPixel(10f, activity as Context).toInt()
+        )
+        set.connect(
+            R.id.archive_button,
+            ConstraintSet.BOTTOM,
+            R.id.post_holder,
+            ConstraintSet.BOTTOM
+        )
     }
 }

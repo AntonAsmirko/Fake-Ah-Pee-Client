@@ -5,6 +5,12 @@
     <ConstraintSet android:id="@+id/start">
         <Constraint
             android:id="@id/post_holder"
+            android:layout_width="0dp"
+            android:layout_height="170dp"
+            android:layout_marginTop="100dp"
+            android:alpha="1"
+            android:scaleX="0.95"
+            android:scaleY="0.95"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -14,13 +20,12 @@
                 app:customDimension="20dp" />
             <CustomAttribute
                 app:attributeName="cardBackgroundColor"
-                app:customColorValue="@color/secondaryLightColor"/>
+                app:customColorValue="@color/secondaryLightColor" />
         </Constraint>
-        <Constraint
-            android:id="@+id/blur">
+        <Constraint android:id="@+id/blur">
             <CustomAttribute
                 app:attributeName="backgroundColor"
-                app:customColorValue="#004C4C4C"/>
+                app:customColorValue="#004C4C4C" />
         </Constraint>
     </ConstraintSet>
 
@@ -89,11 +94,10 @@
             android:visibility="gone"
             app:layout_constraintStart_toEndOf="@id/post_holder"
             app:layout_constraintTop_toTopOf="@id/post_holder" />
-        <Constraint
-            android:id="@+id/blur">
+        <Constraint android:id="@+id/blur">
             <CustomAttribute
                 app:attributeName="backgroundColor"
-                app:customColorValue="#B9393939"/>
+                app:customColorValue="#B9393939" />
         </Constraint>
     </ConstraintSet>
 
@@ -124,7 +128,7 @@
         app:constraintSetEnd="@+id/end"
         app:constraintSetStart="@+id/start"
         app:duration="300"
-        app:motionInterpolator="easeInOut"/>
+        app:motionInterpolator="easeInOut" />
     <Transition
         app:constraintSetEnd="@+id/top_card_expanded"
         app:constraintSetStart="@+id/end" />

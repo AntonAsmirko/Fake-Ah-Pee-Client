@@ -25,9 +25,16 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/post_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="100dp"
+        android:alpha="1"
+        android:scaleX="0.95"
+        android:scaleY="0.95"
         android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="1"
         app:elevation="30dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,18 +52,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1" />
-
-            <!--            <ImageView-->
-            <!--                android:id="@+id/top_liquid"-->
-            <!--                android:layout_width="60dp"-->
-            <!--                android:layout_height="60dp"-->
-            <!--                android:src="@drawable/bottom_right_liquid_forward"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintHorizontal_bias="0"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                app:layout_constraintVertical_bias="0" />-->
 
             <TextView
                 android:id="@+id/title"
@@ -98,7 +93,10 @@
         android:padding="5dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_baseline_delete_24"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/post_holder"
+        app:layout_constraintStart_toEndOf="@id/post_holder"
+        app:layout_constraintTop_toTopOf="@id/post_holder" />
 
     <ImageButton
         android:id="@+id/like_button"
@@ -108,7 +106,9 @@
         android:padding="5dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_baseline_favorite_border_24"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/post_holder"
+        app:layout_constraintTop_toTopOf="@id/post_holder"/>
 
     <ImageButton
         android:id="@+id/archive_button"
@@ -119,6 +119,8 @@
         android:padding="5dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_baseline_archive_24"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/post_holder"
+        app:layout_constraintStart_toEndOf="@id/post_holder"/>
 
 </com.example.fakeahpeeclient.views.FlexMotionLayout>
