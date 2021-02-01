@@ -1,8 +1,8 @@
 :fire: An application for fast blogs :fire:
 
 
-:warning: :construction: :construction: :construction: :construction: :warning:
+:warning: :construction: :construction: :construction: :construction: :construction: :warning:
 
-:construction: BUIL GUIDELINES :construction:
+:construction: :hammer: BUIL GUIDELINES :wrench: :construction:
 
-:warning: :construction: :construction: :construction: :construction: :warning:
+:warning: :construction: :construction: :construction: :construction: :construction: :warning:
